@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AdventureScript : MonoBehaviour
+[CreateAssetMenu()]
+public class AdventureScript : ScriptableObject
 {
     [TextArea(5, 20)]
     public string sourceCode;
@@ -15,7 +16,7 @@ public class AdventureScript : MonoBehaviour
         get => scriptLines;
     }
 
-    void Awake()
+    public void Prepare()
     {
         string[] sourceLines = sourceCode.Split("\n");
         scriptLines = new ScriptLine[sourceLines.Length];
@@ -23,23 +24,11 @@ public class AdventureScript : MonoBehaviour
         {
             ScriptLine line = new ScriptLine(sourceLines[i]);
             scriptLines[i] = line;
-            if (line.IsLabel)
+            if (line.Label != null)
             {
-                labelLineIndices[line.Args[0]] = i;
+                labelLineIndices[line.Label] = i;
             }
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public int GetLineIndexForLabel(string label)

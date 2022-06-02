@@ -4,16 +4,16 @@ using System.Text.RegularExpressions;
 public class ScriptLine
 {
     private string[] args;
-    private bool isLabel;
+    private string label;
 
     public string[] Args
     {
         get => args;
     }
 
-    public bool IsLabel
+    public string Label
     {
-        get => isLabel;
+        get => label;
     }
 
     public ScriptLine(string sourceLine)
@@ -31,7 +31,7 @@ public class ScriptLine
         }
         if (args.Length == 1 && args[0].EndsWith(':'))
         {
-            isLabel = true;
+            label = args[0].Substring(0, args[0].Length - 1);
         }
     }
 }

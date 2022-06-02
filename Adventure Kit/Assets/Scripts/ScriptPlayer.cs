@@ -7,7 +7,9 @@ public class ScriptPlayer : MonoBehaviour
     public AdventureScript adventureScript;
     public bool startsImmediately;
     public bool isLoopEnabled;
+    public string startLabel;
 
+    private int startLineIndex = 0;
     private int lineIndex = 0;
     private bool isRunning = false;
 
@@ -45,6 +47,19 @@ public class ScriptPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        adventureScript.Prepare();
+
+        if (startLabel != null && startLabel.Length > 0)
+        {
+            startLineIndex = adventureScript.GetLineIndexForLabel(startLabel);
+            if (startLineIndex + 1 < adventureScript.ScriptLines.Length)
+            {
+                // skip line of label
+                startLineIndex++;
+            }
+            lineIndex = startLineIndex;
+        }
+
         if (startsImmediately)
         {
             isRunning = true;
@@ -57,16 +72,30 @@ public class ScriptPlayer : MonoBehaviour
         while (isRunning)
         {
             ScriptLine line = adventureScript.ScriptLines[lineIndex];
-            ICommand command = commandsByName[line.Args[0]];
-
-            bool finished = command.Execute(this, line.Args);
-            if (finished)
+            if (line.Label != null)
             {
+                // labels end the script
+                End();
+            }
+            else if (line.Args.Length == 0)
+            {
+                // skip empty line
                 Next();
             }
             else
             {
-                return;
+                // execute command
+                ICommand command = commandsByName[line.Args[0]];
+
+                bool finished = command.Execute(this, line.Args);
+                if (finished)
+                {
+                    Next();
+                }
+                else
+                {
+                    return;
+                }
             }
         }
     }
@@ -87,14 +116,19 @@ public class ScriptPlayer : MonoBehaviour
         lineIndex++;
         if (lineIndex >= adventureScript.ScriptLines.Length)
         {
-            if (isLoopEnabled)
-            {
-                lineIndex = 0;
-            }
-            else
-            {
-                isRunning = false;
-            }
+            End();
+        }
+    }
+
+    private void End()
+    {
+        if (isLoopEnabled)
+        {
+            lineIndex = startLineIndex;
+        }
+        else
+        {
+            isRunning = false;
         }
     }
 
