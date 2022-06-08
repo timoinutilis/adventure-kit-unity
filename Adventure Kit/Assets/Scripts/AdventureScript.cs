@@ -18,6 +18,11 @@ public class AdventureScript : ScriptableObject
 
     public void Prepare()
     {
+        if (scriptLines != null)
+        {
+            return;
+        }
+
         string[] sourceLines = sourceCode.Split("\n");
         scriptLines = new ScriptLine[sourceLines.Length];
         for (int i = 0; i < sourceLines.Length; i++)

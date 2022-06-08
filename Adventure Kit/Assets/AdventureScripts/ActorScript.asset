@@ -12,38 +12,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00b4bc77b66cc49aeb0ea86758e71e3d, type: 3}
   m_Name: ActorScript
   m_EditorClassIdentifier: 
-  sourceCode: 'Say Actor "Hello what''s up!" Happy
+  sourceCode: 'Let $Text = "Hi, I''m a variable!"
 
-    Wait 2
+
+    Say Actor $Text Happy
+
+    Wait
+    2
 
     Walk Actor Point1
 
-    Jump
-    Label1
+    If $Done = 1 Then Jump AlreadyDone
+
+    Jump Label1
 
 
     Label3:
 
-    Say Actor "Bye!"
+    Say
+    Actor "Bye!"
+
+    Let $Done = 1
 
 
     Label2:
 
     Wait 2
 
-    Walk
-    Actor Point2
+    Walk Actor Point2
 
-    Wait 1
+    Wait
+    1
 
     Jump Label3
 
 
     Label1:
 
-    Say Actor "Label
-    1!"
+    Say Actor "Label 1!"
 
     Jump Label2
+
+
+    AlreadyDone:
+
+    Say
+    Actor "Done this before. Bye"
 
 '

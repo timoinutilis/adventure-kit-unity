@@ -8,10 +8,11 @@ public class JumpCommand : ICommand
     {
         get { return "Jump"; }
     }
-
-    public bool Execute(ScriptPlayer scriptPlayer, string[] args)
+    
+    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        scriptPlayer.JumpToLabel(args[1]);
+        string label = scriptLine.GetArgValue(1);
+        scriptPlayer.JumpToLabel(label);
         return true;
     }
 }

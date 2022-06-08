@@ -8,11 +8,11 @@ public class SayCommand : ICommand
     {
         get { return "Say"; }
     }
-
-    public bool Execute(ScriptPlayer scriptPlayer, string[] args)
+    
+    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        GameObject actionObject = GameObject.Find(args[1]);
-        Debug.Log(args[2]);
+        GameObject actionObject = scriptLine.GetArgGameObject(1);
+        Debug.Log(scriptLine.GetArgValue(2));
         return true;
     }
 }

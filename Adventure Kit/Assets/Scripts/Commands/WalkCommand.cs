@@ -9,10 +9,10 @@ public class WalkCommand : ICommand
         get { return "Walk"; }
     }
     
-    public bool Execute(ScriptPlayer scriptPlayer, string[] args)
+    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        GameObject actionObject = GameObject.Find(args[1]);
-        GameObject targetObject = GameObject.Find(args[2]);
+        GameObject actionObject = scriptLine.GetArgGameObject(1);
+        GameObject targetObject = scriptLine.GetArgGameObject(2);
 
         actionObject.transform.position = targetObject.transform.position;
 

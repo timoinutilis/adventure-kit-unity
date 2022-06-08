@@ -24,26 +24,6 @@ public class ScriptPlayer : MonoBehaviour
         get;
     }
 
-    private readonly ICommand[] availableCommands =
-    {
-        new IfCommand(),
-        new JumpCommand(),
-        new LetCommand(),
-        new SayCommand(),
-        new WaitCommand(),
-        new WalkCommand()
-    };
-
-    private readonly Dictionary<string, ICommand> commandsByName = new();
-
-    void Awake()
-    {
-        foreach (ICommand command in availableCommands)
-        {
-            commandsByName[command.Name] = command;
-        }
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -62,12 +42,22 @@ public class ScriptPlayer : MonoBehaviour
 
         if (startsImmediately)
         {
-            isRunning = true;
-            Execute();
+            StartExecution();
         }
     }
 
-    public void Execute()
+    public void StartExecution()
+    {
+        if (isRunning)
+        {
+            Debug.Log("Already running");
+            return;
+        }
+        isRunning = true;
+        Execute();
+    }
+
+    private void Execute()
     {
         while (isRunning)
         {
@@ -77,7 +67,7 @@ public class ScriptPlayer : MonoBehaviour
                 // labels end the script
                 End();
             }
-            else if (line.Args.Length == 0)
+            else if (line.IsEmpty)
             {
                 // skip empty line
                 Next();
@@ -85,9 +75,7 @@ public class ScriptPlayer : MonoBehaviour
             else
             {
                 // execute command
-                ICommand command = commandsByName[line.Args[0]];
-
-                bool finished = command.Execute(this, line.Args);
+                bool finished = ExecuteScriptLine(line);
                 if (finished)
                 {
                     Next();
@@ -98,6 +86,13 @@ public class ScriptPlayer : MonoBehaviour
                 }
             }
         }
+    }
+
+    public bool ExecuteScriptLine(ScriptLine scriptLine)
+    {
+        ScriptPlayerSettings settings = ScriptPlayerSettings.Instance;
+        ICommand command = settings.GetCommand(scriptLine.GetArg(0));
+        return command.Execute(this, scriptLine);
     }
 
     public void Continue()
@@ -122,14 +117,10 @@ public class ScriptPlayer : MonoBehaviour
 
     private void End()
     {
-        if (isLoopEnabled)
-        {
-            lineIndex = startLineIndex;
-        }
-        else
+        lineIndex = startLineIndex;
+        if (!isLoopEnabled)
         {
             isRunning = false;
         }
     }
-
 }

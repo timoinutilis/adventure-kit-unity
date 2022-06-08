@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 
 public class WaitCommand : ICommand
@@ -10,14 +9,14 @@ public class WaitCommand : ICommand
         get { return "Wait"; }
     }
     
-    public bool Execute(ScriptPlayer scriptPlayer, string[] args)
+    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        float seconds = float.Parse(args[1], CultureInfo.InvariantCulture);
-        scriptPlayer.StartCoroutine(ExampleCoroutine(scriptPlayer, seconds));
+        float seconds = scriptLine.GetArgFloat(1);
+        scriptPlayer.StartCoroutine(WaitCoroutine(scriptPlayer, seconds));
         return false;
     }
 
-    IEnumerator ExampleCoroutine(ScriptPlayer scriptPlayer, float seconds)
+    IEnumerator WaitCoroutine(ScriptPlayer scriptPlayer, float seconds)
     {
         yield return new WaitForSeconds(seconds);
         scriptPlayer.Continue();

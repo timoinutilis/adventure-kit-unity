@@ -8,9 +8,13 @@ public class LetCommand : ICommand
     {
         get { return "Let"; }
     }
-
-    public bool Execute(ScriptPlayer scriptPlayer, string[] args)
+    
+    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
+        string key = scriptLine.GetArg(1);
+        string value = scriptLine.GetArgValue(3);
+        ScriptPlayerSettings settings = ScriptPlayerSettings.Instance;
+        settings.variableManager.SetValueForKey(key, value);
         return true;
     }
 }
