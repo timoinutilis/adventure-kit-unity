@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScriptPlayer : MonoBehaviour
+public class ScriptPlayer
 {
-    public AdventureScript adventureScript;
-    public bool startsImmediately;
-    public bool isLoopEnabled;
-    public string startLabel;
+    public readonly MonoBehaviour monoBehaviour;
+
+    private AdventureScript adventureScript;
+    private bool isLoopEnabled;
 
     private int startLineIndex = 0;
     private int lineIndex = 0;
@@ -24,9 +24,22 @@ public class ScriptPlayer : MonoBehaviour
         get;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public ScriptPlayer(MonoBehaviour monoBehaviour)
     {
+        this.monoBehaviour = monoBehaviour;
+    }
+
+    public void Execute(AdventureScript adventureScript, string startLabel, bool isLoopEnabled)
+    {
+        if (isRunning)
+        {
+            Debug.Log("Already running");
+            return;
+        }
+
+        this.adventureScript = adventureScript;
+        this.isLoopEnabled = isLoopEnabled;
+
         adventureScript.Prepare();
 
         if (startLabel != null && startLabel.Length > 0)
@@ -37,27 +50,18 @@ public class ScriptPlayer : MonoBehaviour
                 // skip line of label
                 startLineIndex++;
             }
-            lineIndex = startLineIndex;
+        }
+        else
+        {
+            startLineIndex = 0;
         }
 
-        if (startsImmediately)
-        {
-            StartExecution();
-        }
-    }
-
-    public void StartExecution()
-    {
-        if (isRunning)
-        {
-            Debug.Log("Already running");
-            return;
-        }
+        lineIndex = startLineIndex;
         isRunning = true;
-        Execute();
+        ExecuteScriptLines();
     }
 
-    private void Execute()
+    private void ExecuteScriptLines()
     {
         while (isRunning)
         {
@@ -90,15 +94,14 @@ public class ScriptPlayer : MonoBehaviour
 
     public bool ExecuteScriptLine(ScriptLine scriptLine)
     {
-        ScriptPlayerSettings settings = ScriptPlayerSettings.Instance;
-        ICommand command = settings.GetCommand(scriptLine.GetArg(0));
+        ICommand command = GlobalScriptPlayer.Instance.GetCommand(scriptLine.GetArg(0));
         return command.Execute(this, scriptLine);
     }
 
     public void Continue()
     {
         Next();
-        Execute();
+        ExecuteScriptLines();
     }
 
     public void JumpToLabel(string label)

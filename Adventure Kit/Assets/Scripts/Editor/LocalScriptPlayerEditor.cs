@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(ScriptPlayer))]
-public class ScriptPlayerEditor : Editor
+[CustomEditor(typeof(LocalScriptPlayer))]
+public class LocalScriptPlayerEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        ScriptPlayer scriptPlayer = (ScriptPlayer)target;
+        LocalScriptPlayer scriptPlayer = (LocalScriptPlayer)target;
         if (scriptPlayer.adventureScript == null)
         {
             if (GUILayout.Button("Create Script"))

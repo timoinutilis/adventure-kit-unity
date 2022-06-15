@@ -59,8 +59,7 @@ public class ScriptLine
         string arg = GetArg(index);
         if (arg.StartsWith("$"))
         {
-            ScriptPlayerSettings settings = ScriptPlayerSettings.Instance;
-            return settings.variableManager.GetValueForKey(arg);
+            return GlobalScriptPlayer.Instance.variableManager.GetValueForKey(arg);
         }
         return arg;
     }

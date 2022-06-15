@@ -13,8 +13,7 @@ public class LetCommand : ICommand
     {
         string key = scriptLine.GetArg(1);
         string value = scriptLine.GetArgValue(3);
-        ScriptPlayerSettings settings = ScriptPlayerSettings.Instance;
-        settings.variableManager.SetValueForKey(key, value);
+        GlobalScriptPlayer.Instance.variableManager.SetValueForKey(key, value);
         return true;
     }
 }

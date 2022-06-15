@@ -12,7 +12,7 @@ public class WaitCommand : ICommand
     public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         float seconds = scriptLine.GetArgFloat(1);
-        scriptPlayer.StartCoroutine(WaitCoroutine(scriptPlayer, seconds));
+        scriptPlayer.monoBehaviour.StartCoroutine(WaitCoroutine(scriptPlayer, seconds));
         return false;
     }
 
