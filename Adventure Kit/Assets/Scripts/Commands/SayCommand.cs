@@ -11,8 +11,11 @@ public class SayCommand : ICommand
     
     public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        GameObject actionObject = scriptLine.GetArgGameObject(1);
-        Debug.Log(scriptLine.GetArgValue(2));
-        return true;
+        GameObject gameObject = scriptLine.GetArgGameObject(1);
+        string text = scriptLine.GetArgValue(2);
+
+        ActorController actor = gameObject.GetComponent<ActorController>();
+        actor.Say(text, scriptPlayer);
+        return false;
     }
 }

@@ -3,29 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class ActorController : MonoBehaviour
 {
     public NavMeshAgent agent;
+    public Color textColor = Color.white;
 
     private Interactable currentInteractable;
     private ScriptPlayer currentScriptPlayer;
+    private TextMeshProUGUI textMeshPro;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        textMeshPro = GameObject.FindGameObjectWithTag("DialogText").GetComponent<TextMeshProUGUI>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance && (!agent.hasPath || agent.velocity.sqrMagnitude == 0f))
+        if (HasArrived())
         {
             if (currentInteractable != null)
             {
-                currentInteractable.OnInteract();
+                Interactable interactable = currentInteractable;
                 currentInteractable = null;
+                interactable.OnInteract();
             }
             else if (currentScriptPlayer != null)
             {
@@ -34,6 +38,14 @@ public class ActorController : MonoBehaviour
                 scriptPlayer.Continue();
             }
         }
+    }
+
+    private bool HasArrived()
+    {
+        return agent != null
+            && !agent.pathPending
+            && agent.remainingDistance <= agent.stoppingDistance
+            && (!agent.hasPath || agent.velocity.sqrMagnitude == 0f);
     }
 
     public void OnGroundClick(BaseEventData data)
@@ -67,9 +79,21 @@ public class ActorController : MonoBehaviour
 
     public void Walk(Vector3 destination, ScriptPlayer scriptPlayer)
     {
-        currentInteractable = null;
         currentScriptPlayer = scriptPlayer;
-
         agent.SetDestination(destination);
+    }
+
+    public void Say(string text, ScriptPlayer scriptPlayer)
+    {
+        textMeshPro.color = textColor;
+        textMeshPro.text = text;
+        StartCoroutine(WaitCoroutine(scriptPlayer, 2));
+    }
+
+    IEnumerator WaitCoroutine(ScriptPlayer scriptPlayer, float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        textMeshPro.text = null;
+        scriptPlayer.Continue();
     }
 }
