@@ -29,6 +29,7 @@ public class GlobalScriptPlayer : MonoBehaviour
         AddCommand(new WaitCommand());
         AddCommand(new SayCommand());
         AddCommand(new WalkCommand());
+        AddCommand(new StartCommand());
     }
 
     // Start is called before the first frame update

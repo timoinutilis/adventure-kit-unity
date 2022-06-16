@@ -35,4 +35,9 @@ public class LocalScriptPlayer : MonoBehaviour
     {
         scriptPlayer.Execute(adventureScript, startLabel, isLoopEnabled);
     }
+
+    public void StopExecution()
+    {
+        scriptPlayer.StopExecution();
+    }
 }

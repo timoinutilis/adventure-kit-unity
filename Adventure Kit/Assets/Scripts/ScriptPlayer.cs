@@ -33,8 +33,7 @@ public class ScriptPlayer
     {
         if (isRunning)
         {
-            Debug.Log("Already running");
-            return;
+            throw new UnityException("Already running");
         }
 
         this.adventureScript = adventureScript;
@@ -59,6 +58,14 @@ public class ScriptPlayer
         lineIndex = startLineIndex;
         isRunning = true;
         ExecuteScriptLines();
+    }
+
+    public void StopExecution()
+    {
+        if (isRunning)
+        {
+            isRunning = false;
+        }
     }
 
     private void ExecuteScriptLines()
@@ -100,8 +107,11 @@ public class ScriptPlayer
 
     public void Continue()
     {
-        Next();
-        ExecuteScriptLines();
+        if (isRunning)
+        {
+            Next();
+            ExecuteScriptLines();
+        }
     }
 
     public void JumpToLabel(string label)

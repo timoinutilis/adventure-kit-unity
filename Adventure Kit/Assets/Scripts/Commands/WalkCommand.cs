@@ -14,8 +14,17 @@ public class WalkCommand : ICommand
         GameObject actionObject = scriptLine.GetArgGameObject(1);
         GameObject targetObject = scriptLine.GetArgGameObject(2);
 
-        actionObject.transform.position = targetObject.transform.position;
+        ActorController actor = actionObject.GetComponent<ActorController>();
 
-        return true;
+        if (actor != null)
+        {
+            actor.Walk(targetObject.transform.position, scriptPlayer);
+            return false;
+        }
+        else
+        {
+            actionObject.transform.position = targetObject.transform.position;
+            return true;
+        }
     }
 }

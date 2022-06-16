@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
+    public Transform location;
     public AdventureScript adventureScript;
     public string clickLabel;
     //TODO: use-with-item labels
@@ -19,7 +20,7 @@ public class Interactable : MonoBehaviour
         
     }
 
-    public void OnClick()
+    public void OnInteract()
     {
         GlobalScriptPlayer.Instance.Execute(adventureScript, clickLabel);
     }
