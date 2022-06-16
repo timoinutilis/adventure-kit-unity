@@ -30,6 +30,8 @@ public class GlobalScriptPlayer : MonoBehaviour
         AddCommand(new SayCommand());
         AddCommand(new WalkCommand());
         AddCommand(new StartCommand());
+        AddCommand(new ChoiceCommand());
+        AddCommand(new ShowChoicesCommand());
     }
 
     // Start is called before the first frame update
