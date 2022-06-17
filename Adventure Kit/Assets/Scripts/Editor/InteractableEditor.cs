@@ -11,12 +11,12 @@ public class InteractableEditor : Editor
         DrawDefaultInspector();
 
         Interactable interactable = (Interactable)target;
-        if (interactable.adventureScript == null)
-        {
-            if (GUILayout.Button("Create Script"))
-            {
-                interactable.adventureScript = ScriptableObject.CreateInstance<AdventureScript>();
-            }
-        }
+        //if (interactable.adventureScript == null)
+        //{
+        //    if (GUILayout.Button("Create Script"))
+        //    {
+        //        interactable.adventureScript = ScriptableObject.CreateInstance<AdventureScript>();
+        //    }
+        //}
     }
 }

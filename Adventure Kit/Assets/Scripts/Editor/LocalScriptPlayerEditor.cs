@@ -11,12 +11,12 @@ public class LocalScriptPlayerEditor : Editor
         DrawDefaultInspector();
 
         LocalScriptPlayer scriptPlayer = (LocalScriptPlayer)target;
-        if (scriptPlayer.adventureScript == null)
-        {
-            if (GUILayout.Button("Create Script"))
-            {
-                scriptPlayer.adventureScript = ScriptableObject.CreateInstance<AdventureScript>();
-            }
-        }
+        //if (scriptPlayer.adventureScript == null)
+        //{
+        //    if (GUILayout.Button("Create Script"))
+        //    {
+        //        scriptPlayer.adventureScript = ScriptableObject.CreateInstance<AdventureScript>();
+        //    }
+        //}
     }
 }

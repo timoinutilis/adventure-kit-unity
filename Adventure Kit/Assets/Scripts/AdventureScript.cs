@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu()]
-public class AdventureScript : ScriptableObject
+public class AdventureScript : MonoBehaviour
 {
-    [TextArea(5, 20)]
-    public string sourceCode;
+    public TextAsset sourceCode;
 
     private ScriptLine[] scriptLines;
     private Dictionary<string, int> labelLineIndices = new();
@@ -23,7 +21,7 @@ public class AdventureScript : ScriptableObject
             return;
         }
 
-        string[] sourceLines = sourceCode.Split("\n");
+        string[] sourceLines = sourceCode.text.Split("\n");
         scriptLines = new ScriptLine[sourceLines.Length];
         for (int i = 0; i < sourceLines.Length; i++)
         {
@@ -40,4 +38,7 @@ public class AdventureScript : ScriptableObject
     {
         return labelLineIndices[label];
     }
+
+    // File.WriteAllText(AssetDatabase.GetAssetPath(TEXT_ASSET), STRING);
+    // EditorUtility.SetDirty(TEXT_ASSET);
 }

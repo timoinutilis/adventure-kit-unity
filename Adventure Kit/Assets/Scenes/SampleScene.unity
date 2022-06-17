@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -358,7 +358,7 @@ Transform:
   - {fileID: 1062965800}
   - {fileID: 398289820}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &174842266
 GameObject:
@@ -389,7 +389,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: -77.501, z: 0}
 --- !u!1 &224697623
 GameObject:
@@ -582,7 +582,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 26.169, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -836,8 +836,10 @@ GameObject:
   - component: {fileID: 398289823}
   - component: {fileID: 398289822}
   - component: {fileID: 398289821}
+  - component: {fileID: 398289824}
+  - component: {fileID: 398289825}
   m_Layer: 0
-  m_Name: Cube (4)
+  m_Name: Fountain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -921,6 +923,50 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398289819}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &398289824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398289819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25dee374d4b074a0da65094ec922ec81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  location: {fileID: 555103795}
+  adventureScript: {fileID: 1818865908}
+  clickLabel: OnClickFountain
+--- !u!114 &398289825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 398289819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2010712915}
+          m_TargetAssemblyTypeName: ActorController, Assembly-CSharp
+          m_MethodName: OnInteractableClick
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 398289824}
+            m_ObjectArgumentAssemblyTypeName: Interactable, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1014,7 +1060,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &410087042
 MonoBehaviour:
@@ -1193,27 +1239,39 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &598884339
-MonoBehaviour:
+--- !u!1 &555103794
+GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00b4bc77b66cc49aeb0ea86758e71e3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sourceCode: 'Wait 1
-
-    Walk Sphere2 Point3
-
-    Wait 1
-
-    Walk Sphere2 Point4'
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 555103795}
+  m_Layer: 0
+  m_Name: Point6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &555103795
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555103794}
+  m_LocalRotation: {x: -0, y: -0.11269373, z: -0, w: 0.99362975}
+  m_LocalPosition: {x: -0.39, y: 0, z: 4.42}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: -12.941, z: 0}
 --- !u!1 &659921318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,7 +1507,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &723901712
 MonoBehaviour:
@@ -1463,8 +1521,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eed405574d65241759ca0d191552c631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adventureScript: {fileID: 598884339}
-  startLabel: 
+  adventureScript: {fileID: 1818865908}
+  startLabel: IdleSphere2
   startsImmediately: 1
   isLoopEnabled: 1
 --- !u!114 &723901713
@@ -1521,8 +1579,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   location: {fileID: 174842267}
-  adventureScript: {fileID: 796818495}
-  clickLabel: OnClick
+  adventureScript: {fileID: 1818865908}
+  clickLabel: OnClickSphere2
 --- !u!114 &723901715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1862,82 +1920,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &796818495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00b4bc77b66cc49aeb0ea86758e71e3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sourceCode: 'OnClick:
-
-    Walk Sphere2 Point4
-
-    Say Sphere2 "Hello, I''m Sphere
-    2!"
-
-    Jump Ask
-
-
-    Ask:
-
-    Choice "Hello I''m Testy." Hello
-
-    Choice
-    "Buh!" Buh
-
-    Choice "Enough. Bye!" Bye
-
-    ShowChoices
-
-
-    Hello:
-
-    Say
-    PlayerActor "Hello I''m Testy."
-
-    Say Sphere2 "Hello, I''m Sphere 2 ..."
-
-    Say
-    Sphere2 "... as I just told you."
-
-    Jump Ask
-
-
-    Buh:
-
-    Say PlayerActor
-    "Buh!"
-
-    Walk Sphere2 Point5
-
-    Say Sphere2 "I''m scared!"
-
-    Walk Sphere2
-    Point4
-
-    Say Sphere2 "But it''s OK."
-
-    Jump Ask
-
-
-    Bye:
-
-    Say PlayerActor
-    "Bye!"
-
-    Say Sphere2 "See you soon!"
-
-    Start Sphere2
-
-'
 --- !u!1 &820465318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,26 +2104,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &994267710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00b4bc77b66cc49aeb0ea86758e71e3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sourceCode: 'OnClick:
-
-    Say Sphere1 "Hi, I''m the first sphere."
-
-    Say Sphere1
-    "Nice to meet me."'
 --- !u!1 &1062965799
 GameObject:
   m_ObjectHideFlags: 0
@@ -2733,6 +2699,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 664881890edf7454bb8edfb957bd6873, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1343437410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1343437412}
+  - component: {fileID: 1343437411}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1343437411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343437410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 224cfbb42184e4be3810d1b9ff1247ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items: []
+--- !u!4 &1343437412
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343437410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1918367, y: 3.7591121, z: 2.8494208}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1475869340
 GameObject:
   m_ObjectHideFlags: 0
@@ -2859,7 +2870,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: -76.835, z: 0}
 --- !u!1 &1656523592
 GameObject:
@@ -2959,7 +2970,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1656523597
 MonoBehaviour:
@@ -3003,8 +3014,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   location: {fileID: 1476720638}
-  adventureScript: {fileID: 994267710}
-  clickLabel: OnClick
+  adventureScript: {fileID: 1818865908}
+  clickLabel: OnClickSphere1
 --- !u!114 &1656523599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3048,7 +3059,52 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1818865907
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1818865909}
+  - component: {fileID: 1818865908}
+  m_Layer: 0
+  m_Name: SampleLocationScript
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1818865908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818865907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00b4bc77b66cc49aeb0ea86758e71e3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sourceCode: {fileID: 4900000, guid: 1df8f361d37244b5393f76dc99976b4a, type: 3}
+--- !u!4 &1818865909
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818865907}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1918367, y: 3.7591121, z: 2.8494208}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1887180209
 GameObject:
@@ -3176,7 +3232,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2010712908
 GameObject:
@@ -3211,7 +3267,7 @@ Transform:
   - {fileID: 1887180210}
   - {fileID: 1475869341}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &2010712914
 NavMeshAgent:
@@ -3344,7 +3400,7 @@ RectTransform:
   - {fileID: 659921319}
   - {fileID: 395535974}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

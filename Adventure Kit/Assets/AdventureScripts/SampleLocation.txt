@@ -1,0 +1,48 @@
+OnClickSphere1:
+Say Sphere1 "Hi, I'm the first sphere."
+Say Sphere1 "Take my glass."
+Take Glass
+
+IdleSphere2:
+Wait 1
+Walk Sphere2 Point3
+Wait 1
+Walk Sphere2 Point4
+
+
+OnClickSphere2:
+Walk Sphere2 Point4
+Say Sphere2 "Hello, I'm Sphere 2!"
+Jump Ask
+
+Ask:
+Choice "Hello I'm Testy." Hello
+Choice "Buh!" Buh
+Choice "Enough. Bye!" Bye
+ShowChoices
+
+Hello:
+Say PlayerActor "Hello I'm Testy."
+Say Sphere2 "Hello, I'm Sphere 2 ..."
+Say Sphere2 "... as I just told you."
+Jump Ask
+
+Buh:
+Say PlayerActor "Buh!"
+Walk Sphere2 Point5
+Say Sphere2 "I'm scared!"
+Walk Sphere2 Point4
+Say Sphere2 "But it's OK."
+Say Sphere2 "Take my hammer."
+Take Hammer
+Jump Ask
+
+Bye:
+Say PlayerActor "Bye!"
+Say Sphere2 "See you soon!"
+Start Sphere2
+
+
+OnClickFountain:
+Say PlayerActor "There is a bottle!"
+Take Bottle
