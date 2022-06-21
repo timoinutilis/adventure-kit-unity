@@ -1,7 +1,24 @@
 OnClickSphere1:
 Say Sphere1 "Hi, I'm the first sphere."
+If $Glass = 1 Then Jump TookGlass
 Say Sphere1 "Take my glass."
+Let $Glass = 1
 Take Glass
+
+TookGlass:
+Say Sphere1 "I gave you my glass."
+
+OnUseGlassWithSphere1:
+Say Sphere1 "Thanks for giving it back!"
+Drop Glass
+Let $Glass = 0
+
+OnUseBottleWithSphere1:
+Say Sphere1 "Keep your bottle."
+
+OnFallbackSphere1:
+Say Sphere1 "I don't want this."
+
 
 IdleSphere2:
 Wait 1
@@ -40,6 +57,10 @@ Jump Ask
 Bye:
 Say PlayerActor "Bye!"
 Say Sphere2 "See you soon!"
+Start Sphere2
+
+OnFallbackSphere2:
+Say Sphere2 "I don't need this."
 Start Sphere2
 
 

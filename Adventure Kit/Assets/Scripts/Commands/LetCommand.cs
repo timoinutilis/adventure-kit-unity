@@ -13,7 +13,11 @@ public class LetCommand : ICommand
     {
         string key = scriptLine.GetArg(1);
         string value = scriptLine.GetArgValue(3);
-        GlobalScriptPlayer.Instance.variableManager.SetValueForKey(key, value);
+        if (!key.StartsWith("$"))
+        {
+            throw new UnityException("Variable must start with $");
+        }
+        GlobalScriptPlayer.Instance.variableManager.SetValueForKey(key[1..], value);
         return true;
     }
 }

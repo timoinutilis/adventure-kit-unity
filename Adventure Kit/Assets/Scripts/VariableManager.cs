@@ -1,22 +1,51 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class VariableManager : MonoBehaviour
 {
-    private readonly Dictionary<string, string> variables = new();
+    public List<Variable> variables = new();
 
     public string GetValueForKey(string key)
     {
-        if (variables.ContainsKey(key))
+        Variable variable = FindVariable(key);
+        if (variable != null)
         {
-            return variables[key];
+            return variable.value;
         }
         return null;
     }
 
     public void SetValueForKey(string key, string value)
     {
-        variables[key] = value;
+        Variable variable = FindVariable(key);
+        if (variable == null)
+        {
+            variable = new();
+            variable.key = key;
+            variables.Add(variable);
+        }
+
+        variable.value = value;
     }
+
+    private Variable FindVariable(string key)
+    {
+        foreach (var variable in variables)
+        {
+            if (variable.key == key)
+            {
+                return variable;
+            }
+        }
+        return null;
+    }
+}
+
+[Serializable]
+public class Variable
+{
+    public string key;
+    public string value;
 }

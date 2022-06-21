@@ -11,6 +11,7 @@ public class ActorController : MonoBehaviour
     public Color textColor = Color.white;
 
     private Interactable currentInteractable;
+    private InventoryItem currentInventoryItem;
     private ScriptPlayer currentScriptPlayer;
     private TextMeshProUGUI textMeshPro;
 
@@ -28,8 +29,17 @@ public class ActorController : MonoBehaviour
             if (currentInteractable != null)
             {
                 Interactable interactable = currentInteractable;
+                InventoryItem item = currentInventoryItem;
                 currentInteractable = null;
-                interactable.OnInteract();
+                currentInventoryItem = null;
+                if (item != null)
+                {
+                    interactable.OnCombineWithItem(item);
+                }
+                else
+                {
+                    interactable.OnInteract();
+                }
             }
             else if (currentScriptPlayer != null)
             {
@@ -51,6 +61,7 @@ public class ActorController : MonoBehaviour
     public void OnGroundClick(BaseEventData data)
     {
         currentInteractable = null;
+        currentInventoryItem = null;
         currentScriptPlayer = null;
 
         Vector3 destinationPosition;
@@ -71,6 +82,8 @@ public class ActorController : MonoBehaviour
     public void OnInteractableClick(Interactable interactable)
     {
         currentInteractable = interactable;
+        currentInventoryItem = Inventory.Instance.DraggingItem;
+        Inventory.Instance.DraggingItem = null;
         currentScriptPlayer = null;
 
         Vector3 destinationPosition = currentInteractable.location.position;

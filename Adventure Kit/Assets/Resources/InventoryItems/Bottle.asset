@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Bottle
   m_EditorClassIdentifier: 
   displayName: Bottle
-  sprite: {fileID: 0}
+  sprite: {fileID: 32862759, guid: 23dbf51b7f62746038b0c47c2e2517a2, type: 3}
+  defaultInteractionLabel: OnClickBottle
+  combinationCollection:
+    combinations: []
+    fallbackLabel: 

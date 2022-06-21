@@ -13,4 +13,12 @@ MonoBehaviour:
   m_Name: Hammer
   m_EditorClassIdentifier: 
   displayName: Hammer
-  sprite: {fileID: 0}
+  sprite: {fileID: 1667954194, guid: 23dbf51b7f62746038b0c47c2e2517a2, type: 3}
+  defaultInteractionLabel: OnClickHammer
+  combinationCollection:
+    combinations:
+    - item: {fileID: 11400000, guid: f7fbf49deb6224188bf055f3c4b98a7a, type: 2}
+      label: OnUseHammerWithBottle
+    - item: {fileID: 11400000, guid: 0da029b00cabd433e9c041e264edbe41, type: 2}
+      label: OnUseHammerWithGlass
+    fallbackLabel: OnUseHammerFallback

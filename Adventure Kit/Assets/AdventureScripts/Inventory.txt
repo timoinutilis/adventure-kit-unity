@@ -1,0 +1,25 @@
+﻿OnClickBottle:
+Say PlayerActor "Nice bottle!"
+
+OnClickGlass:
+Say PlayerActor "Amazing glass!"
+
+OnClickHammer:
+Say PlayerActor "What a hammer!"
+
+OnUseHammerWithBottle:
+Say PlayerActor "I broke the bottle"
+Drop Bottle
+
+OnUseHammerWithGlass:
+Say PlayerActor "I broke the glass"
+Drop Glass
+
+OnUseHammerFallback:
+Say PlayerActor "No need to break this."
+
+OnInteractFallback:
+Say PlayerActor "Nothing special."
+
+OnCombineFallback:
+Say PlayerActor "That doesn't work."
