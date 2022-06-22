@@ -67,3 +67,7 @@ Start Sphere2
 OnClickFountain:
 Say PlayerActor "There is a bottle!"
 Take Bottle
+
+
+OnClickPathToSecondScene:
+ChangeLocation SecondScene

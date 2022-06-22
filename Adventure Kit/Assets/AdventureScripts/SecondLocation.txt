@@ -1,0 +1,2 @@
+OnClickPathToSampleScene:
+ChangeLocation SampleScene
