@@ -7,16 +7,14 @@ using UnityEngine.Events;
 public class Inventory : MonoBehaviour
 {
     public static Inventory Instance { get; private set; }
-
+    
     public List<InventoryItem> items = new();
-    public AdventureScript adventureScript;
-    public string fallbackInteractionLabel;
-    public string fallbackCombinationLabel;
 
     public readonly UnityEvent onChangeEvent = new();
     public readonly UnityEvent onDragChangeEvent = new();
 
     private InventoryItem draggingItem;
+    private List<InventoryItemHandler> handlers = new();
 
     public InventoryItem DraggingItem
     {
@@ -62,28 +60,36 @@ public class Inventory : MonoBehaviour
         onChangeEvent.Invoke();
     }
 
+    public void AddHandler(InventoryItemHandler handler)
+    {
+        handlers.Add(handler);
+        handlers.Sort((x, y) => y.priority.CompareTo(x.priority));
+    }
+
+    public void RemoveHandler(InventoryItemHandler handler)
+    {
+        handlers.Remove(handler);
+    }
+    
     public void OnItemInteract(InventoryItem item)
     {
-        if (!String.IsNullOrEmpty(item.defaultInteractionLabel))
+        foreach (var handler in handlers)
         {
-            GlobalScriptPlayer.Instance.Execute(adventureScript, item.defaultInteractionLabel);
-        }
-        else if (!String.IsNullOrEmpty(fallbackInteractionLabel))
-        {
-            GlobalScriptPlayer.Instance.Execute(adventureScript, fallbackInteractionLabel);
+            if (handler.Interact(item))
+            {
+                return;
+            }
         }
     }
 
     public void OnCombine(InventoryItem item1, InventoryItem item2)
     {
-        string label = item1.combinationCollection.FindLabel(item2) ?? item2.combinationCollection.FindLabel(item1);
-        if (label != null)
+        foreach (var handler in handlers)
         {
-            GlobalScriptPlayer.Instance.Execute(adventureScript, label);
-        }
-        else if (!String.IsNullOrEmpty(fallbackCombinationLabel))
-        {
-            GlobalScriptPlayer.Instance.Execute(adventureScript, fallbackCombinationLabel);
+            if (handler.Combine(item1, item2))
+            {
+                return;
+            }
         }
     }
 }

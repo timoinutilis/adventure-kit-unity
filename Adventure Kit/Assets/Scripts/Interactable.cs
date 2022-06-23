@@ -8,9 +8,8 @@ public class Interactable : MonoBehaviour
     public Transform location;
     public AdventureScript adventureScript;
     public string clickLabel;
-    public CombinationCollection combinationCollection = new();
-    //public Combination[] combinations;
-    //public string fallbackCombinationLabel;
+    public Combination[] combinations;
+    public string fallbackCombinationLabel;
 
     // Start is called before the first frame update
     void Start()
@@ -30,22 +29,21 @@ public class Interactable : MonoBehaviour
 
     public void OnCombineWithItem(InventoryItem item)
     {
-        var label = combinationCollection.FindLabel(item);
-        if (label != null)
+        foreach (var combination in combinations)
         {
-            GlobalScriptPlayer.Instance.Execute(adventureScript, label);
+            if (combination.item == item)
+            {
+                GlobalScriptPlayer.Instance.Execute(adventureScript, combination.label);
+                return;
+            }
         }
-        //foreach (var combination in combinations)
-        //{
-        //    if (combination.item == item)
-        //    {
-        //        GlobalScriptPlayer.Instance.Execute(adventureScript, combination.label);
-        //        return;
-        //    }
-        //}
-        //if (fallbackCombinationLabel != null && fallbackCombinationLabel != "")
-        //{
-        //    GlobalScriptPlayer.Instance.Execute(adventureScript, fallbackCombinationLabel);
-        //}
+        if (!String.IsNullOrEmpty(fallbackCombinationLabel))
+        {
+            GlobalScriptPlayer.Instance.Execute(adventureScript, fallbackCombinationLabel);
+        }
+        else
+        {
+            Inventory.Instance.OnCombine(item, null);
+        }
     }
 }

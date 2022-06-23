@@ -257,6 +257,8 @@ MonoBehaviour:
   combinationCollection:
     combinations: []
     fallbackLabel: 
+  combinations: []
+  fallbackCombinationLabel: 
 --- !u!65 &70154603
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -531,6 +533,8 @@ MonoBehaviour:
   combinationCollection:
     combinations: []
     fallbackLabel: 
+  combinations: []
+  fallbackCombinationLabel: 
 --- !u!114 &398289825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1123,6 +1127,8 @@ MonoBehaviour:
   combinationCollection:
     combinations: []
     fallbackLabel: 
+  combinations: []
+  fallbackCombinationLabel: 
 --- !u!114 &723901715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1566,6 +1572,12 @@ MonoBehaviour:
     - item: {fileID: 11400000, guid: 0da029b00cabd433e9c041e264edbe41, type: 2}
       label: OnUseGlassWithSphere1
     fallbackLabel: OnFallbackSphere1
+  combinations:
+  - item: {fileID: 11400000, guid: f7fbf49deb6224188bf055f3c4b98a7a, type: 2}
+    label: OnUseBottleWithSphere1
+  - item: {fileID: 11400000, guid: 0da029b00cabd433e9c041e264edbe41, type: 2}
+    label: OnUseGlassWithSphere1
+  fallbackCombinationLabel: OnFallbackSphere1
 --- !u!114 &1656523599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,6 +1633,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1818865909}
   - component: {fileID: 1818865908}
+  - component: {fileID: 1818865910}
   m_Layer: 0
   m_Name: Location
   m_TagString: Untagged
@@ -1654,8 +1667,27 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1818865910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818865907}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b5b664cde9a4304b4b1432b2670951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 1
+  adventureScript: {fileID: 1818865908}
+  combinations: []
+  fallbackCombinations: []
+  fallbackCombinationLabel: 
+  interactions: []
+  fallbackInteractionLabel: 
 --- !u!1 &1922434608
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,7 +1863,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &5027000292814484445
 PrefabInstance:

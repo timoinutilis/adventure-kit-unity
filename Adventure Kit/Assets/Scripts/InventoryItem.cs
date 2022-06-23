@@ -7,6 +7,4 @@ public class InventoryItem : ScriptableObject
 {
     public string displayName;
     public Sprite sprite;
-    public string defaultInteractionLabel;
-    public CombinationCollection combinationCollection = new();
 }

@@ -1,2 +1,7 @@
 OnClickPathToSampleScene:
 ChangeLocation SampleScene EntranceFromSecondScene
+
+
+OnClickHammer:
+Say PlayerActor "This is a quiet place."
+Say PlayerActor "I should not use the hammer here."

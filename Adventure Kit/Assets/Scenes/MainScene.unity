@@ -508,10 +508,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4920100019752835673, guid: 6f95fffb19b4048b795464da142e2afe,
+    - target: {fileID: 2410259100275743002, guid: 6f95fffb19b4048b795464da142e2afe,
         type: 3}
-      propertyPath: startSceneName
-      value: SampleScene
+      propertyPath: handler
+      value: 
+      objectReference: {fileID: 2019234800}
+    - target: {fileID: 2410259100275743002, guid: 6f95fffb19b4048b795464da142e2afe,
+        type: 3}
+      propertyPath: adventureScript
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5027000293417855369, guid: 6f95fffb19b4048b795464da142e2afe,
         type: 3}
@@ -575,6 +580,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f95fffb19b4048b795464da142e2afe, type: 3}
+--- !u!114 &2019234800 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1197920764226296790, guid: 6f95fffb19b4048b795464da142e2afe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1262396915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b5b664cde9a4304b4b1432b2670951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8536471585034251939
 GameObject:
   m_ObjectHideFlags: 0

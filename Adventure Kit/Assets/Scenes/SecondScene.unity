@@ -337,6 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 652803051}
   - component: {fileID: 652803050}
+  - component: {fileID: 652803052}
   m_Layer: 0
   m_Name: Location
   m_TagString: Untagged
@@ -372,6 +373,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &652803052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652803049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b5b664cde9a4304b4b1432b2670951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  priority: 1
+  adventureScript: {fileID: 652803050}
+  combinations: []
+  fallbackCombinations: []
+  fallbackCombinationLabel: 
+  interactions:
+  - item: {fileID: 11400000, guid: d1764d04b046a4af798aee1baa684074, type: 2}
+    label: OnClickHammer
+  fallbackInteractionLabel: 
 --- !u!1 &659881058
 GameObject:
   m_ObjectHideFlags: 0
@@ -865,8 +887,6 @@ GameObject:
   - component: {fileID: 1627818840}
   - component: {fileID: 1627818839}
   - component: {fileID: 1627818838}
-  - component: {fileID: 1627818837}
-  - component: {fileID: 1627818836}
   m_Layer: 0
   m_Name: Fountain
   m_TagString: Untagged
@@ -889,53 +909,6 @@ Transform:
   m_Father: {fileID: 2070025663}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -26.147, z: 0}
---- !u!114 &1627818836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627818834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 426838633}
-          m_TargetAssemblyTypeName: ActorController, Assembly-CSharp
-          m_MethodName: OnInteractableClick
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 1627818837}
-            m_ObjectArgumentAssemblyTypeName: Interactable, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
---- !u!114 &1627818837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1627818834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25dee374d4b074a0da65094ec922ec81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  location: {fileID: 0}
-  adventureScript: {fileID: 0}
-  clickLabel: OnClickFountain
-  combinationCollection:
-    combinations: []
-    fallbackLabel: 
 --- !u!65 &1627818838
 BoxCollider:
   m_ObjectHideFlags: 0
