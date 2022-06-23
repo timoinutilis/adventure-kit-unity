@@ -266,9 +266,8 @@ MonoBehaviour:
   location: {fileID: 659881059}
   adventureScript: {fileID: 652803050}
   clickLabel: OnClickPathToSampleScene
-  combinationCollection:
-    combinations: []
-    fallbackLabel: 
+  combinations: []
+  fallbackCombinationLabel: 
 --- !u!65 &580335312
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -307,26 +306,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 580335310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: c5d28c285596947dd924683013971ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 426838633}
-          m_TargetAssemblyTypeName: ActorController, Assembly-CSharp
-          m_MethodName: OnInteractableClick
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 580335311}
-            m_ObjectArgumentAssemblyTypeName: Interactable, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  actor: {fileID: 426838633}
+  location: {fileID: 659881059}
+  interactable: {fileID: 580335311}
 --- !u!1 &652803049
 GameObject:
   m_ObjectHideFlags: 0

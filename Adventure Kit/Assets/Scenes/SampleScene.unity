@@ -251,12 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25dee374d4b074a0da65094ec922ec81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 1361434816}
   adventureScript: {fileID: 1818865908}
   clickLabel: OnClickPathToSecondScene
-  combinationCollection:
-    combinations: []
-    fallbackLabel: 
   combinations: []
   fallbackCombinationLabel: 
 --- !u!65 &70154603
@@ -297,26 +293,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 70154601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: c5d28c285596947dd924683013971ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 660071372}
-          m_TargetAssemblyTypeName: ActorController, Assembly-CSharp
-          m_MethodName: OnInteractableClick
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 70154602}
-            m_ObjectArgumentAssemblyTypeName: Interactable, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  actor: {fileID: 660071372}
+  location: {fileID: 1361434816}
+  interactable: {fileID: 70154602}
+  localScriptPlayerToStop: {fileID: 0}
 --- !u!1 &88890682
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,12 +510,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25dee374d4b074a0da65094ec922ec81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 555103795}
   adventureScript: {fileID: 1818865908}
   clickLabel: OnClickFountain
-  combinationCollection:
-    combinations: []
-    fallbackLabel: 
   combinations: []
   fallbackCombinationLabel: 
 --- !u!114 &398289825
@@ -544,26 +523,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 398289819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Script: {fileID: 11500000, guid: c5d28c285596947dd924683013971ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 660071372}
-          m_TargetAssemblyTypeName: ActorController, Assembly-CSharp
-          m_MethodName: OnInteractableClick
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 398289824}
-            m_ObjectArgumentAssemblyTypeName: Interactable, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
+  actor: {fileID: 660071372}
+  location: {fileID: 555103795}
+  interactable: {fileID: 398289824}
+  localScriptPlayerToStop: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -964,7 +930,7 @@ GameObject:
   - component: {fileID: 723901708}
   - component: {fileID: 723901712}
   - component: {fileID: 723901714}
-  - component: {fileID: 723901713}
+  - component: {fileID: 723901717}
   - component: {fileID: 723901716}
   - component: {fileID: 723901715}
   m_Layer: 0
@@ -1068,47 +1034,6 @@ MonoBehaviour:
   startLabel: IdleSphere2
   startsImmediately: 1
   isLoopEnabled: 1
---- !u!114 &723901713
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 723901707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 723901712}
-          m_TargetAssemblyTypeName: LocalScriptPlayer, Assembly-CSharp
-          m_MethodName: StopExecution
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 660071372}
-          m_TargetAssemblyTypeName: ActorController, Assembly-CSharp
-          m_MethodName: OnInteractableClick
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 723901714}
-            m_ObjectArgumentAssemblyTypeName: Interactable, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &723901714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1121,12 +1046,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25dee374d4b074a0da65094ec922ec81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 174842267}
   adventureScript: {fileID: 1818865908}
   clickLabel: OnClickSphere2
-  combinationCollection:
-    combinations: []
-    fallbackLabel: 
   combinations: []
   fallbackCombinationLabel: 
 --- !u!114 &723901715
@@ -1165,6 +1086,22 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &723901717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 723901707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d28c285596947dd924683013971ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actor: {fileID: 660071372}
+  location: {fileID: 174842267}
+  interactable: {fileID: 723901714}
+  localScriptPlayerToStop: {fileID: 723901712}
 --- !u!1 &1062965799
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,7 +1371,7 @@ GameObject:
   - component: {fileID: 1656523594}
   - component: {fileID: 1656523593}
   - component: {fileID: 1656523598}
-  - component: {fileID: 1656523597}
+  - component: {fileID: 1656523600}
   - component: {fileID: 1656523599}
   m_Layer: 0
   m_Name: Sphere1
@@ -1521,35 +1458,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1656523597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656523592}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 660071372}
-          m_TargetAssemblyTypeName: ActorController, Assembly-CSharp
-          m_MethodName: OnInteractableClick
-          m_Mode: 2
-          m_Arguments:
-            m_ObjectArgument: {fileID: 1656523598}
-            m_ObjectArgumentAssemblyTypeName: Interactable, Assembly-CSharp
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &1656523598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1562,16 +1470,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25dee374d4b074a0da65094ec922ec81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  location: {fileID: 1476720638}
   adventureScript: {fileID: 1818865908}
   clickLabel: OnClickSphere1
-  combinationCollection:
-    combinations:
-    - item: {fileID: 11400000, guid: f7fbf49deb6224188bf055f3c4b98a7a, type: 2}
-      label: OnUseBottleWithSphere1
-    - item: {fileID: 11400000, guid: 0da029b00cabd433e9c041e264edbe41, type: 2}
-      label: OnUseGlassWithSphere1
-    fallbackLabel: OnFallbackSphere1
   combinations:
   - item: {fileID: 11400000, guid: f7fbf49deb6224188bf055f3c4b98a7a, type: 2}
     label: OnUseBottleWithSphere1
@@ -1592,6 +1492,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   agent: {fileID: 0}
   textColor: {r: 1, g: 0.99247026, b: 0, a: 1}
+--- !u!114 &1656523600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656523592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d28c285596947dd924683013971ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actor: {fileID: 660071372}
+  location: {fileID: 1476720638}
+  interactable: {fileID: 1656523598}
+  localScriptPlayerToStop: {fileID: 0}
 --- !u!1 &1710386448
 GameObject:
   m_ObjectHideFlags: 0

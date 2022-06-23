@@ -79,14 +79,12 @@ public class ActorController : MonoBehaviour
         agent.SetDestination(destinationPosition);
     }
 
-    public void OnInteractableClick(Interactable interactable)
+    public void OnInteractableClick(Interactable interactable, Vector3 destinationPosition)
     {
         currentInteractable = interactable;
         currentInventoryItem = Inventory.Instance.DraggingItem;
         Inventory.Instance.DraggingItem = null;
         currentScriptPlayer = null;
-
-        Vector3 destinationPosition = currentInteractable.location.position;
         agent.SetDestination(destinationPosition);
     }
 

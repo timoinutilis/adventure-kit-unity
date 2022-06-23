@@ -5,22 +5,10 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
-    public Transform location;
     public AdventureScript adventureScript;
     public string clickLabel;
     public Combination[] combinations;
     public string fallbackCombinationLabel;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void OnInteract()
     {
