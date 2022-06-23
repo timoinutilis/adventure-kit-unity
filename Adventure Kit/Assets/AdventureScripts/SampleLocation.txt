@@ -70,4 +70,4 @@ Take Bottle
 
 
 OnClickPathToSecondScene:
-ChangeLocation SecondScene
+ChangeLocation SecondScene EntranceFromSampleScene

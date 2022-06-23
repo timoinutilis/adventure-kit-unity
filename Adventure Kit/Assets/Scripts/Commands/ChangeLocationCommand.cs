@@ -12,7 +12,8 @@ public class ChangeLocationCommand : ICommand
     public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         string sceneName = scriptLine.GetArgValue(1);
-        LocationManager.Instance.ChangeLocation(sceneName);
+        string positionName = scriptLine.GetArgValue(2);
+        LocationManager.Instance.ChangeLocation(sceneName, positionName);
         return true;
     }
 }

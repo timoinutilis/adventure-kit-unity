@@ -9,6 +9,8 @@ public class LocationManager : MonoBehaviour
 
     public string startSceneName;
 
+    public string PositionName { get; private set; }
+
     private void Awake()
     {
         if (Instance != null)
@@ -30,8 +32,9 @@ public class LocationManager : MonoBehaviour
         
     }
 
-    public void ChangeLocation(string sceneName)
+    public void ChangeLocation(string sceneName, string positionName)
     {
+        PositionName = positionName;
         StartCoroutine(LoadNewLocation(sceneName, true));
     }
 

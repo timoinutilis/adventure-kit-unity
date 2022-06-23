@@ -1,2 +1,2 @@
 OnClickPathToSampleScene:
-ChangeLocation SampleScene
+ChangeLocation SampleScene EntranceFromSecondScene
