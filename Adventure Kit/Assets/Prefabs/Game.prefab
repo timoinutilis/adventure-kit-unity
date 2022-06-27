@@ -47,9 +47,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
-  adventureScript: {fileID: 0}
-  fallbackInteractionLabel: 
-  fallbackCombinationLabel: 
 --- !u!114 &8555582123509344836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b5b664cde9a4304b4b1432b2670951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  priority: 0
   adventureScript: {fileID: 8555582123509344836}
   combinations:
   - item1: {fileID: 11400000, guid: d1764d04b046a4af798aee1baa684074, type: 2}
@@ -107,6 +105,7 @@ GameObject:
   - component: {fileID: 5027000293417855374}
   - component: {fileID: 5027000293417855375}
   - component: {fileID: 4920100019752835673}
+  - component: {fileID: 1262396917}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -169,3 +168,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSceneName: SampleScene
+--- !u!114 &1262396917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5027000293417855378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14fd57d33f3f4402abc8331104510189, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  contents:
+  - {fileID: 2410259100275743002}
+  - {fileID: 5027000293417855374}

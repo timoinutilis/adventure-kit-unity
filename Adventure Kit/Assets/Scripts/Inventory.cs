@@ -4,8 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Inventory : MonoBehaviour
+public class Inventory : SaveGameContent
 {
+    [Serializable]
+    class InventoryData
+    {
+        public List<string> itemNames;
+    }
+
+
     public static Inventory Instance { get; private set; }
     
     public List<InventoryItem> items = new();
@@ -91,5 +98,41 @@ public class Inventory : MonoBehaviour
                 return;
             }
         }
+    }
+
+    public override string Key()
+    {
+        return "Inventory";
+    }
+
+    public override string ToJson()
+    {
+        InventoryData data = new();
+        data.itemNames = new();
+        foreach (var item in items)
+        {
+            data.itemNames.Add(item.name);
+        }
+        return JsonUtility.ToJson(data);
+    }
+
+    public override void FromJson(string json)
+    {
+        items.Clear();
+        var data = JsonUtility.FromJson<InventoryData>(json);
+        foreach (var itemName in data.itemNames)
+        {
+            InventoryItem item = Resources.Load<InventoryItem>("InventoryItems/" + itemName);
+            items.Add(item);
+        }
+        onChangeEvent.Invoke();
+        DraggingItem = null;
+    }
+
+    public override void Reset()
+    {
+        items.Clear();
+        onChangeEvent.Invoke();
+        DraggingItem = null;
     }
 }

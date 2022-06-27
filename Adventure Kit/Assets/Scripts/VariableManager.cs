@@ -3,8 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VariableManager : MonoBehaviour
+public class VariableManager : SaveGameContent
 {
+    [Serializable]
+    class VariableManagerData
+    {
+        public List<Variable> variables;
+    }
+
     public List<Variable> variables = new();
 
     public string GetValueForKey(string key)
@@ -40,6 +46,29 @@ public class VariableManager : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public override string Key()
+    {
+        return "VariableManager";
+    }
+
+    public override void Reset()
+    {
+        variables.Clear();
+    }
+
+    public override string ToJson()
+    {
+        VariableManagerData data = new();
+        data.variables = variables;
+        return JsonUtility.ToJson(data);
+    }
+
+    public override void FromJson(string json)
+    {
+        var data = JsonUtility.FromJson<VariableManagerData>(json);
+        variables = data.variables;
     }
 }
 
