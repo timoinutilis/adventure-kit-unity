@@ -28,13 +28,7 @@ public class LocationManager : SaveGameContent
     {
         StartCoroutine(LoadNewLocation(startSceneName, false));
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     public void ChangeLocation(string sceneName, string positionName)
     {
         PositionName = positionName;
@@ -81,12 +75,12 @@ public class LocationManager : SaveGameContent
         LocationManagerData data = obj.ToObject<LocationManagerData>();
 
         PositionName = data.PositionName;
-        _ = StartCoroutine(LoadNewLocation(data.SceneName, true));
+        StartCoroutine(LoadNewLocation(data.SceneName, true));
     }
 
     public override void Reset()
     {
         PositionName = null;
-        _ = StartCoroutine(LoadNewLocation(startSceneName, true));
+        StartCoroutine(LoadNewLocation(startSceneName, true));
     }
 }

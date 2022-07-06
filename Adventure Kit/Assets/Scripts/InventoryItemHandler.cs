@@ -13,12 +13,12 @@ public class InventoryItemHandler : MonoBehaviour
     public Combination[] interactions;
     public string fallbackInteractionLabel;
 
-    void OnEnable()
+    void Start()
     {
         Inventory.Instance.AddHandler(this);
     }
 
-    void OnDisable()
+    void OnDestroy()
     {
         Inventory.Instance.RemoveHandler(this);
     }
