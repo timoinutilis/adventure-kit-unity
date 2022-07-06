@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public abstract class SaveGameContent : MonoBehaviour
 {
-    public abstract string Key();
-    public abstract string ToJson();
-    public abstract void FromJson(string json);
+    public abstract string SaveGameKey();
+    public abstract JObject ToSaveGameObject();
+    public abstract void FromSaveGameObject(JObject obj);
     public abstract void Reset();
 }

@@ -1,18 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Inventory : SaveGameContent
 {
-    [Serializable]
-    class InventoryData
-    {
-        public List<string> itemNames;
-    }
-
-
     public static Inventory Instance { get; private set; }
     
     public List<InventoryItem> items = new();
@@ -100,31 +96,39 @@ public class Inventory : SaveGameContent
         }
     }
 
-    public override string Key()
+    // SaveGameContent
+
+    class InventoryData
+    {
+        public List<string> ItemNames;
+    }
+
+    public override string SaveGameKey()
     {
         return "Inventory";
     }
 
-    public override string ToJson()
+    public override JObject ToSaveGameObject()
     {
-        InventoryData data = new();
-        data.itemNames = new();
-        foreach (var item in items)
+        InventoryData data = new()
         {
-            data.itemNames.Add(item.name);
-        }
-        return JsonUtility.ToJson(data);
+            ItemNames = items.ConvertAll(item => item.name)
+        };
+        return JObject.FromObject(data);
     }
 
-    public override void FromJson(string json)
+    public override void FromSaveGameObject(JObject obj)
     {
         items.Clear();
-        var data = JsonUtility.FromJson<InventoryData>(json);
-        foreach (var itemName in data.itemNames)
+
+        InventoryData data = obj.ToObject<InventoryData>();
+
+        foreach (var itemName in data.ItemNames)
         {
             InventoryItem item = Resources.Load<InventoryItem>("InventoryItems/" + itemName);
             items.Add(item);
         }
+
         onChangeEvent.Invoke();
         DraggingItem = null;
     }

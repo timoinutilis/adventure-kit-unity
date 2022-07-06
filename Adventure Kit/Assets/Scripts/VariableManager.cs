@@ -1,16 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class VariableManager : SaveGameContent
 {
-    [Serializable]
-    class VariableManagerData
-    {
-        public List<Variable> variables;
-    }
-
     public List<Variable> variables = new();
 
     public string GetValueForKey(string key)
@@ -48,7 +44,14 @@ public class VariableManager : SaveGameContent
         return null;
     }
 
-    public override string Key()
+    // SaveGameContent
+
+    class VariableManagerData
+    {
+        public Dictionary<string, string> Variables;
+    }
+
+    public override string SaveGameKey()
     {
         return "VariableManager";
     }
@@ -58,17 +61,25 @@ public class VariableManager : SaveGameContent
         variables.Clear();
     }
 
-    public override string ToJson()
+    public override JObject ToSaveGameObject()
     {
-        VariableManagerData data = new();
-        data.variables = variables;
-        return JsonUtility.ToJson(data);
+        VariableManagerData data = new()
+        {
+            Variables = variables.ToDictionary(v => v.key, v => v.value)
+        };
+        return JObject.FromObject(data);
     }
 
-    public override void FromJson(string json)
+    public override void FromSaveGameObject(JObject obj)
     {
-        var data = JsonUtility.FromJson<VariableManagerData>(json);
-        variables = data.variables;
+        variables.Clear();
+
+        VariableManagerData data = obj.ToObject<VariableManagerData>();
+
+        foreach (var variable in data.Variables)
+        {
+            SetValueForKey(variable.Key, variable.Value);
+        }
     }
 }
 

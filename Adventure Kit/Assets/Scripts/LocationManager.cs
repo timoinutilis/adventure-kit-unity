@@ -1,18 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LocationManager : SaveGameContent
 {
-    [Serializable]
-    class LocationManagerData
-    {
-        public string sceneName;
-        public string positionName;
-    }
-
     public static LocationManager Instance { get; private set; }
 
     public string startSceneName;
@@ -59,29 +53,40 @@ public class LocationManager : SaveGameContent
         CurrentSceneName = sceneName;
     }
 
-    public override string Key()
+    // SaveGameContent
+
+    class LocationManagerData
+    {
+        public string SceneName;
+        public string PositionName;
+    }
+
+    public override string SaveGameKey()
     {
         return "LocationManager";
     }
 
-    public override string ToJson()
+    public override JObject ToSaveGameObject()
     {
-        LocationManagerData data = new();
-        data.sceneName = CurrentSceneName;
-        data.positionName = PositionName;
-        return JsonUtility.ToJson(data);
+        LocationManagerData data = new()
+        {
+            SceneName = CurrentSceneName,
+            PositionName = PositionName
+        };
+        return JObject.FromObject(data);
     }
 
-    public override void FromJson(string json)
+    public override void FromSaveGameObject(JObject obj)
     {
-        var data = JsonUtility.FromJson<LocationManagerData>(json);
-        PositionName = data.positionName;
-        StartCoroutine(LoadNewLocation(data.sceneName, true));
+        LocationManagerData data = obj.ToObject<LocationManagerData>();
+
+        PositionName = data.PositionName;
+        _ = StartCoroutine(LoadNewLocation(data.SceneName, true));
     }
 
     public override void Reset()
     {
         PositionName = null;
-        StartCoroutine(LoadNewLocation(startSceneName, true));
+        _ = StartCoroutine(LoadNewLocation(startSceneName, true));
     }
 }
