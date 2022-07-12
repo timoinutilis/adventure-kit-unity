@@ -2,7 +2,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
-public class SaveGame : MonoBehaviour
+public class SaverManager : MonoBehaviour
 {
     public Saver[] savers;
 
@@ -11,7 +11,7 @@ public class SaveGame : MonoBehaviour
         JObject rootObject = new();
         foreach (var saver in savers)
         {
-            string key = saver.SaveGameKey();
+            string key = saver.SaveGameKey;
             JObject obj = saver.ToSaveGameObject();
             rootObject[key] = obj;
         }
@@ -29,7 +29,7 @@ public class SaveGame : MonoBehaviour
 
         foreach (var saver in savers)
         {
-            string key = saver.SaveGameKey();
+            string key = saver.SaveGameKey;
             JObject obj = (JObject)rootObject[key];
             saver.FromSaveGameObject(obj);
         }

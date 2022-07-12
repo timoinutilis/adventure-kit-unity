@@ -12,10 +12,7 @@ public class InventorySaver : Saver
         public List<string> ItemNames;
     }
 
-    public override string SaveGameKey()
-    {
-        return "Inventory";
-    }
+    public override string SaveGameKey => "Inventory";
 
     public override JObject ToSaveGameObject()
     {

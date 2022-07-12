@@ -13,10 +13,7 @@ public class LocationManagerSaver : Saver
         public string PositionName;
     }
 
-    public override string SaveGameKey()
-    {
-        return "LocationManager";
-    }
+    public override string SaveGameKey => "LocationManager";
 
     public override JObject ToSaveGameObject()
     {

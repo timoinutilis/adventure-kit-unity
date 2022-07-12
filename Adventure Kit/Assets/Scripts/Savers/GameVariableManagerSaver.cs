@@ -13,10 +13,7 @@ public class GameVariableManagerSaver : Saver
         public Dictionary<string, string> Variables;
     }
 
-    public override string SaveGameKey()
-    {
-        return "VariableManager";
-    }
+    public override string SaveGameKey => "VariableManager";
 
     public override void Reset()
     {
