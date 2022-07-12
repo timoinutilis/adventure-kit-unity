@@ -5,10 +5,10 @@ using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Inventory : SaveGameContent
+public class Inventory : MonoBehaviour
 {
     public static Inventory Instance { get; private set; }
-    
+
     public List<InventoryItem> items = new();
 
     public readonly UnityEvent onChangeEvent = new();
@@ -49,6 +49,12 @@ public class Inventory : SaveGameContent
         onChangeEvent.Invoke();
     }
 
+    public void RemoveAll()
+    {
+        items.Clear();
+        onChangeEvent.Invoke();
+    }
+    
     public void AddHandler(InventoryItemHandler handler)
     {
         handlers.Add(handler);
@@ -80,49 +86,5 @@ public class Inventory : SaveGameContent
                 return;
             }
         }
-    }
-
-    // SaveGameContent
-
-    class InventoryData
-    {
-        public List<string> ItemNames;
-    }
-
-    public override string SaveGameKey()
-    {
-        return "Inventory";
-    }
-
-    public override JObject ToSaveGameObject()
-    {
-        InventoryData data = new()
-        {
-            ItemNames = items.ConvertAll(item => item.name)
-        };
-        return JObject.FromObject(data);
-    }
-
-    public override void FromSaveGameObject(JObject obj)
-    {
-        items.Clear();
-
-        InventoryData data = obj.ToObject<InventoryData>();
-
-        foreach (var itemName in data.ItemNames)
-        {
-            InventoryItem item = Resources.Load<InventoryItem>("InventoryItems/" + itemName);
-            items.Add(item);
-        }
-
-        onChangeEvent.Invoke();
-        DraggingItem = null;
-    }
-
-    public override void Reset()
-    {
-        items.Clear();
-        onChangeEvent.Invoke();
-        DraggingItem = null;
     }
 }

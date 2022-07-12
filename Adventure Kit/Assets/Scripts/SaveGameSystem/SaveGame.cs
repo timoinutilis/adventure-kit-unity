@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class SaveGame : MonoBehaviour
 {
-    public SaveGameContent[] contents;
+    public Saver[] savers;
 
     public void Save()
     {
         JObject rootObject = new();
-        foreach (var content in contents)
+        foreach (var saver in savers)
         {
-            string key = content.SaveGameKey();
-            JObject obj = content.ToSaveGameObject();
+            string key = saver.SaveGameKey();
+            JObject obj = saver.ToSaveGameObject();
             rootObject[key] = obj;
         }
         string json = rootObject.ToString();
@@ -27,19 +27,19 @@ public class SaveGame : MonoBehaviour
         string json = File.ReadAllText(path);
         JObject rootObject = JObject.Parse(json);
 
-        foreach (var content in contents)
+        foreach (var saver in savers)
         {
-            string key = content.SaveGameKey();
+            string key = saver.SaveGameKey();
             JObject obj = (JObject)rootObject[key];
-            content.FromSaveGameObject(obj);
+            saver.FromSaveGameObject(obj);
         }
     }
 
     public void Reset()
     {
-        foreach (var content in contents)
+        foreach (var saver in savers)
         {
-            content.Reset();
+            saver.Reset();
         }
     }
 
