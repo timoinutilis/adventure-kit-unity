@@ -101,7 +101,7 @@ public class ScriptPlayer
 
     public bool ExecuteScriptLine(ScriptLine scriptLine)
     {
-        ICommand command = GlobalScriptPlayer.Instance.GetCommand(scriptLine.GetArg(0));
+        ICommand command = GlobalScriptPlayer.Instance.commandManager.GetCommand(scriptLine.GetArg(0));
         return command.Execute(this, scriptLine);
     }
 

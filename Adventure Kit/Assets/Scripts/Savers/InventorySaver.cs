@@ -7,7 +7,7 @@ public class InventorySaver : Saver
 {
     public Inventory inventory;
 
-    class InventoryData
+    private class InventoryData
     {
         public List<string> ItemNames;
     }

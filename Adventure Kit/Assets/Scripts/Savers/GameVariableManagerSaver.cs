@@ -4,11 +4,11 @@ using UnityEngine;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 
-public class VariableManagerSaver : Saver
+public class GameVariableManagerSaver : Saver
 {
-    public VariableManager variableManager;
+    public GameVariableManager variableManager;
 
-    class VariableManagerData
+    private class VariableManagerData
     {
         public Dictionary<string, string> Variables;
     }

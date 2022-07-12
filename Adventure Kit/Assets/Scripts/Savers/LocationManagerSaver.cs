@@ -7,7 +7,7 @@ public class LocationManagerSaver : Saver
 {
     public LocationManager locationManager;
 
-    class LocationManagerData
+    private class LocationManagerData
     {
         public string SceneName;
         public string PositionName;
