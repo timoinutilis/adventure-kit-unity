@@ -9,11 +9,11 @@ public class DropCommand : ICommand
         get { return "Drop"; }
     }
 
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         string itemName = scriptLine.GetArgValue(1);
         InventoryItem item = Resources.Load<InventoryItem>("InventoryItems/" + itemName);
         Inventory.Instance.Remove(item);
-        return true;
+        return null;
     }
 }

@@ -9,11 +9,11 @@ public class StartCommand : ICommand
         get { return "Start"; }
     }
 
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         GameObject gameObject = scriptLine.GetArgGameObject(1);
         LocalScriptPlayer objectScriptPlayer = gameObject.GetComponent<LocalScriptPlayer>();
         objectScriptPlayer.Execute();
-        return true;
+        return null;
     }
 }

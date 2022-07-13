@@ -88,6 +88,18 @@ public class ActorController : MonoBehaviour
         agent.SetDestination(destinationPosition);
     }
 
+    public void Cancel()
+    {
+        //TODO: implement state and cancel only needed things (especially textMeshPro)
+        StopAllCoroutines();
+        agent.ResetPath();
+        textMeshPro.text = null;
+
+        currentInteractable = null;
+        currentInventoryItem = null;
+        currentScriptPlayer = null;
+    }
+
     public void Walk(Vector3 destination, ScriptPlayer scriptPlayer)
     {
         currentScriptPlayer = scriptPlayer;

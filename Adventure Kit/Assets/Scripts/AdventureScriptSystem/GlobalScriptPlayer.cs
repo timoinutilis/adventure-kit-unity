@@ -26,4 +26,9 @@ public class GlobalScriptPlayer : MonoBehaviour
     {
         scriptPlayer.Execute(adventureScript, startLabel, false);
     }
+
+    public void StopExecution()
+    {
+        scriptPlayer.StopExecution();
+    }
 }

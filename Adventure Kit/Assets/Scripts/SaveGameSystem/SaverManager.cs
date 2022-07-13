@@ -12,8 +12,11 @@ public class SaverManager : MonoBehaviour
         foreach (var saver in savers)
         {
             string key = saver.SaveGameKey;
-            JObject obj = saver.ToSaveGameObject();
-            rootObject[key] = obj;
+            if (key != null)
+            {
+                JObject obj = saver.ToSaveGameObject();
+                rootObject[key] = obj;
+            }
         }
         string json = rootObject.ToString();
 
@@ -30,8 +33,15 @@ public class SaverManager : MonoBehaviour
         foreach (var saver in savers)
         {
             string key = saver.SaveGameKey;
-            JObject obj = (JObject)rootObject[key];
-            saver.FromSaveGameObject(obj);
+            if (key != null)
+            {
+                JObject obj = (JObject)rootObject[key];
+                saver.FromSaveGameObject(obj);
+            }
+            else
+            {
+                saver.Reset();
+            }
         }
     }
 

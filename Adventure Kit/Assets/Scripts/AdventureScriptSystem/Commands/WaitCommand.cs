@@ -9,16 +9,31 @@ public class WaitCommand : ICommand
         get { return "Wait"; }
     }
     
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         float seconds = scriptLine.GetArgFloat(1);
-        scriptPlayer.monoBehaviour.StartCoroutine(WaitCoroutine(scriptPlayer, seconds));
-        return false;
+
+        WaitCommandExecution execution = new();
+
+        execution.coroutine = WaitCoroutine(scriptPlayer, seconds);
+        scriptPlayer.monoBehaviour.StartCoroutine(execution.coroutine);
+        return execution;
     }
 
     IEnumerator WaitCoroutine(ScriptPlayer scriptPlayer, float seconds)
     {
         yield return new WaitForSeconds(seconds);
         scriptPlayer.Continue();
+    }
+
+
+    private class WaitCommandExecution : ICommandExecution
+    {
+        public IEnumerator coroutine;
+
+        public void Cancel(ScriptPlayer scriptPlayer)
+        {
+            scriptPlayer.monoBehaviour.StopCoroutine(coroutine);
+        }
     }
 }

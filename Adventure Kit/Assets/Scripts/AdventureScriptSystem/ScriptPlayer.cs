@@ -12,6 +12,7 @@ public class ScriptPlayer
     private int startLineIndex = 0;
     private int lineIndex = 0;
     private bool isRunning = false;
+    private ICommandExecution currentExecution;
 
     public int LineIndex
     {
@@ -64,6 +65,11 @@ public class ScriptPlayer
     {
         if (isRunning)
         {
+            if (currentExecution != null)
+            {
+                currentExecution.Cancel(this);
+                currentExecution = null;
+            }
             isRunning = false;
         }
     }
@@ -86,20 +92,20 @@ public class ScriptPlayer
             else
             {
                 // execute command
-                bool finished = ExecuteScriptLine(line);
-                if (finished)
+                currentExecution = ExecuteScriptLine(line);
+                if (currentExecution != null)
                 {
-                    Next();
+                    return;
                 }
                 else
                 {
-                    return;
+                    Next();
                 }
             }
         }
     }
 
-    public bool ExecuteScriptLine(ScriptLine scriptLine)
+    public ICommandExecution ExecuteScriptLine(ScriptLine scriptLine)
     {
         ICommand command = GlobalScriptPlayer.Instance.commandManager.GetCommand(scriptLine.GetArg(0));
         return command.Execute(this, scriptLine);
@@ -109,6 +115,7 @@ public class ScriptPlayer
     {
         if (isRunning)
         {
+            currentExecution = null;
             Next();
             ExecuteScriptLines();
         }

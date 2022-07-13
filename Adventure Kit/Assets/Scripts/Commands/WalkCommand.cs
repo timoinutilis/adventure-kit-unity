@@ -9,7 +9,7 @@ public class WalkCommand : ICommand
         get { return "Walk"; }
     }
     
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         GameObject actionObject = scriptLine.GetArgGameObject(1);
         GameObject targetObject = scriptLine.GetArgGameObject(2);
@@ -19,12 +19,25 @@ public class WalkCommand : ICommand
         if (actor != null)
         {
             actor.Walk(targetObject.transform.position, scriptPlayer);
-            return false;
+
+            WalkCommandExecution execution = new();
+            execution.actor = actor;
+            return execution;
         }
         else
         {
             actionObject.transform.position = targetObject.transform.position;
-            return true;
+            return null;
+        }
+    }
+
+    private class WalkCommandExecution : ICommandExecution
+    {
+        public ActorController actor;
+
+        public void Cancel(ScriptPlayer scriptPlayer)
+        {
+            actor.Cancel();
         }
     }
 }

@@ -9,7 +9,7 @@ public class LetCommand : ICommand
         get { return "Let"; }
     }
     
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         string key = scriptLine.GetArg(1);
         string value = scriptLine.GetArgValue(3);
@@ -18,6 +18,6 @@ public class LetCommand : ICommand
             throw new UnityException("Variable must start with $");
         }
         GlobalScriptPlayer.Instance.variableManager.SetValueForKey(key[1..], value);
-        return true;
+        return null;
     }
 }

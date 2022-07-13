@@ -9,12 +9,12 @@ public class ChoiceCommand : ICommand
         get { return "Choice"; }
     }
 
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         string text = scriptLine.GetArgValue(1);
         string label = scriptLine.GetArgValue(2);
 
         ChoiceManager.Instance.AddChoice(text, label);
-        return true;
+        return null;
     }
 }

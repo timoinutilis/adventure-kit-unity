@@ -9,11 +9,11 @@ public class TakeCommand : ICommand
         get { return "Take"; }
     }
 
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         string itemName = scriptLine.GetArgValue(1);
         InventoryItem item = Resources.Load<InventoryItem>("InventoryItems/" + itemName);
         Inventory.Instance.Add(item);
-        return true;
+        return null;
     }
 }

@@ -9,13 +9,26 @@ public class SayCommand : ICommand
         get { return "Say"; }
     }
     
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         GameObject gameObject = scriptLine.GetArgGameObject(1);
         string text = scriptLine.GetArgValue(2);
 
-        ActorController actor = gameObject.GetComponent<ActorController>();
-        actor.Say(text, scriptPlayer);
-        return false;
+        SayCommandExecution execution = new();
+
+        execution.actor = gameObject.GetComponent<ActorController>();
+        execution.actor.Say(text, scriptPlayer);
+        return execution;
+    }
+
+
+    private class SayCommandExecution : ICommandExecution
+    {
+        public ActorController actor;
+
+        public void Cancel(ScriptPlayer scriptPlayer)
+        {
+            actor.Cancel();
+        }
     }
 }

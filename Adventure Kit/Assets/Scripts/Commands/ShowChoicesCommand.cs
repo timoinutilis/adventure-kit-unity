@@ -9,9 +9,18 @@ public class ShowChoicesCommand : ICommand
         get { return "ShowChoices"; }
     }
 
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         ChoiceManager.Instance.Show(scriptPlayer);
-        return false;
+        return new ShowChoicesCommandExecution();
+    }
+
+
+    private class ShowChoicesCommandExecution : ICommandExecution
+    {
+        public void Cancel(ScriptPlayer scriptPlayer)
+        {
+            ChoiceManager.Instance.Clear();
+        }
     }
 }

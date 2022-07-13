@@ -5,5 +5,10 @@ using UnityEngine;
 public interface ICommand
 {
     string Name { get; }
-    bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine);
+    ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine);
+}
+
+public interface ICommandExecution
+{
+    void Cancel(ScriptPlayer scriptPlayer);
 }

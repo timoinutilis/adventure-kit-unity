@@ -9,7 +9,7 @@ public class IfCommand : ICommand
         get { return "If"; }
     }
     
-    public bool Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
+    public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         string value1 = scriptLine.GetArgValue(1);
         string comparator = scriptLine.GetArg(2);
@@ -21,7 +21,7 @@ public class IfCommand : ICommand
             return scriptPlayer.ExecuteScriptLine(thenScriptLine);
         }
 
-        return true;
+        return null;
     }
 
     bool Validate(string value1, string comparator, string value2)
