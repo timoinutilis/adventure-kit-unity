@@ -4,16 +4,19 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using TMPro;
+using System;
 
 public class ActorController : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Color textColor = Color.white;
 
-    private Interactable currentInteractable;
-    private InventoryItem currentInventoryItem;
-    private ScriptPlayer currentScriptPlayer;
+    private Action onArriveAction;
     private TextMeshProUGUI textMeshPro;
+    private IEnumerator sayCoroutine;
+
+    private bool isWalking;
+    private bool isSaying;
 
     // Start is called before the first frame update
     void Start()
@@ -26,26 +29,12 @@ public class ActorController : MonoBehaviour
     {
         if (HasArrived())
         {
-            if (currentInteractable != null)
+            isWalking = false;
+            if (onArriveAction != null)
             {
-                Interactable interactable = currentInteractable;
-                InventoryItem item = currentInventoryItem;
-                currentInteractable = null;
-                currentInventoryItem = null;
-                if (item != null)
-                {
-                    interactable.OnCombineWithItem(item);
-                }
-                else
-                {
-                    interactable.OnInteract();
-                }
-            }
-            else if (currentScriptPlayer != null)
-            {
-                ScriptPlayer scriptPlayer = currentScriptPlayer;
-                currentScriptPlayer = null;
-                scriptPlayer.Continue();
+                Action action = onArriveAction;
+                onArriveAction = null;
+                action();
             }
         }
     }
@@ -60,9 +49,12 @@ public class ActorController : MonoBehaviour
 
     public void OnGroundClick(BaseEventData data)
     {
-        currentInteractable = null;
-        currentInventoryItem = null;
-        currentScriptPlayer = null;
+        if (GlobalScriptPlayer.Instance.IsRunning)
+        {
+            return;
+        }
+
+        Cancel();
 
         Vector3 destinationPosition;
         PointerEventData pData = (PointerEventData)data;
@@ -76,47 +68,56 @@ public class ActorController : MonoBehaviour
             destinationPosition = pData.pointerCurrentRaycast.worldPosition;
         }
 
-        agent.SetDestination(destinationPosition);
-    }
-
-    public void OnInteractableClick(Interactable interactable, Vector3 destinationPosition)
-    {
-        currentInteractable = interactable;
-        currentInventoryItem = Inventory.Instance.DraggingItem;
-        Inventory.Instance.DraggingItem = null;
-        currentScriptPlayer = null;
-        agent.SetDestination(destinationPosition);
+        Walk(destinationPosition, null);
     }
 
     public void Cancel()
     {
-        //TODO: implement state and cancel only needed things (especially textMeshPro)
-        StopAllCoroutines();
-        agent.ResetPath();
-        textMeshPro.text = null;
-
-        currentInteractable = null;
-        currentInventoryItem = null;
-        currentScriptPlayer = null;
+        if (isWalking)
+        {
+            agent.ResetPath();
+            onArriveAction = null;
+            isWalking = false;
+        }
+        if (isSaying)
+        {
+            StopCoroutine(sayCoroutine);
+            sayCoroutine = null;
+            textMeshPro.text = null;
+            isSaying = false;
+        }
     }
 
-    public void Walk(Vector3 destination, ScriptPlayer scriptPlayer)
+    public void Walk(Vector3 destination, Action completion)
     {
-        currentScriptPlayer = scriptPlayer;
+        if (isWalking)
+        {
+            throw new UnityException("Already walking");
+        }
+        isWalking = true;
+        onArriveAction = completion;
         agent.SetDestination(destination);
     }
 
-    public void Say(string text, ScriptPlayer scriptPlayer)
+    public void Say(string text, Action completion)
     {
+        if (isSaying)
+        {
+            throw new UnityException("Already saying");
+        }
+        isSaying = true;
         textMeshPro.color = textColor;
         textMeshPro.text = text;
-        StartCoroutine(WaitCoroutine(scriptPlayer, 2));
+        sayCoroutine = SayCoroutine(2, completion);
+        StartCoroutine(sayCoroutine);
     }
 
-    IEnumerator WaitCoroutine(ScriptPlayer scriptPlayer, float seconds)
+    IEnumerator SayCoroutine(float seconds, Action completion)
     {
         yield return new WaitForSeconds(seconds);
+        sayCoroutine = null;
         textMeshPro.text = null;
-        scriptPlayer.Continue();
+        isSaying = false;
+        completion();
     }
 }

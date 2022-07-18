@@ -15,21 +15,25 @@ public class WaitCommand : ICommand
 
         WaitCommandExecution execution = new();
 
-        execution.coroutine = WaitCoroutine(scriptPlayer, seconds);
+        execution.seconds = seconds;
+        execution.coroutine = WaitCoroutine(scriptPlayer, execution);
         scriptPlayer.monoBehaviour.StartCoroutine(execution.coroutine);
         return execution;
     }
 
-    IEnumerator WaitCoroutine(ScriptPlayer scriptPlayer, float seconds)
+    IEnumerator WaitCoroutine(ScriptPlayer scriptPlayer, WaitCommandExecution execution)
     {
-        yield return new WaitForSeconds(seconds);
-        scriptPlayer.Continue();
+        yield return new WaitForSeconds(execution.seconds);
+        scriptPlayer.Continue(execution);
     }
 
 
     private class WaitCommandExecution : ICommandExecution
     {
+        public float seconds;
         public IEnumerator coroutine;
+
+        public bool WaitForEnd => true;
 
         public void Cancel(ScriptPlayer scriptPlayer)
         {

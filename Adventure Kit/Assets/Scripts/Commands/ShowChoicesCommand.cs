@@ -11,13 +11,16 @@ public class ShowChoicesCommand : ICommand
 
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        ChoiceManager.Instance.Show(scriptPlayer);
-        return new ShowChoicesCommandExecution();
+        ShowChoicesCommandExecution execution = new();
+        ChoiceManager.Instance.Show(() => scriptPlayer.Continue(execution));
+        return execution;
     }
 
 
     private class ShowChoicesCommandExecution : ICommandExecution
     {
+        public bool WaitForEnd => true;
+
         public void Cancel(ScriptPlayer scriptPlayer)
         {
             ChoiceManager.Instance.Clear();

@@ -13,11 +13,16 @@ public class SayCommand : ICommand
     {
         GameObject gameObject = scriptLine.GetArgGameObject(1);
         string text = scriptLine.GetArgValue(2);
+        bool doNotWait = scriptLine.HasDoNotWait();
+
+        ActorController actor = gameObject.GetComponent<ActorController>();
 
         SayCommandExecution execution = new();
+        execution.actor = actor;
+        execution.WaitForEnd = !doNotWait;
 
-        execution.actor = gameObject.GetComponent<ActorController>();
-        execution.actor.Say(text, scriptPlayer);
+        actor.Say(text, () => scriptPlayer.Continue(execution));
+
         return execution;
     }
 
@@ -25,6 +30,8 @@ public class SayCommand : ICommand
     private class SayCommandExecution : ICommandExecution
     {
         public ActorController actor;
+
+        public bool WaitForEnd { get; set; }
 
         public void Cancel(ScriptPlayer scriptPlayer)
         {

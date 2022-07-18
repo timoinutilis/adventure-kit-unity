@@ -14,6 +14,7 @@ public abstract class CommandManager : MonoBehaviour
         AddCommand(new LetCommand());
         AddCommand(new StartCommand());
         AddCommand(new WaitCommand());
+        AddCommand(new AwaitCommand());
 
         AddCustomCommands();
     }

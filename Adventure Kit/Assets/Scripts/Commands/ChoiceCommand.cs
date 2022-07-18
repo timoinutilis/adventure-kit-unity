@@ -14,7 +14,7 @@ public class ChoiceCommand : ICommand
         string text = scriptLine.GetArgValue(1);
         string label = scriptLine.GetArgValue(2);
 
-        ChoiceManager.Instance.AddChoice(text, label);
+        ChoiceManager.Instance.AddChoice(text, () => scriptPlayer.JumpToLabel(label));
         return null;
     }
 }

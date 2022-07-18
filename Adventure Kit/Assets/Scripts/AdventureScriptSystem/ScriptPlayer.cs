@@ -11,19 +11,10 @@ public class ScriptPlayer
 
     private int startLineIndex = 0;
     private int lineIndex = 0;
-    private bool isRunning = false;
-    private ICommandExecution currentExecution;
+    private readonly List<ICommandExecution> currentExecutions = new();
+    private bool isAwaiting;
 
-    public int LineIndex
-    {
-        get;
-        set;
-    }
-
-    public bool IsRunning
-    {
-        get;
-    }
+    public bool IsRunning { get; private set; } = false;
 
     public ScriptPlayer(MonoBehaviour monoBehaviour)
     {
@@ -32,7 +23,7 @@ public class ScriptPlayer
 
     public void Execute(AdventureScript adventureScript, string startLabel, bool isLoopEnabled)
     {
-        if (isRunning)
+        if (IsRunning)
         {
             throw new UnityException("Already running");
         }
@@ -57,26 +48,26 @@ public class ScriptPlayer
         }
 
         lineIndex = startLineIndex;
-        isRunning = true;
+        IsRunning = true;
         ExecuteScriptLines();
     }
 
     public void StopExecution()
     {
-        if (isRunning)
+        if (IsRunning)
         {
-            if (currentExecution != null)
+            foreach (var execution in currentExecutions)
             {
-                currentExecution.Cancel(this);
-                currentExecution = null;
+                execution.Cancel(this);
             }
-            isRunning = false;
+            currentExecutions.Clear();
+            IsRunning = false;
         }
     }
 
     private void ExecuteScriptLines()
     {
-        while (isRunning)
+        while (IsRunning)
         {
             ScriptLine line = adventureScript.ScriptLines[lineIndex];
             if (line.Label != null)
@@ -92,8 +83,20 @@ public class ScriptPlayer
             else
             {
                 // execute command
-                currentExecution = ExecuteScriptLine(line);
-                if (currentExecution != null)
+                ICommandExecution execution = ExecuteScriptLine(line);
+                if (execution != null)
+                {
+                    currentExecutions.Add(execution);
+                    if (execution.WaitForEnd)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        Next();
+                    }
+                }
+                else if (isAwaiting)
                 {
                     return;
                 }
@@ -111,11 +114,27 @@ public class ScriptPlayer
         return command.Execute(this, scriptLine);
     }
 
-    public void Continue()
+    public void Continue(ICommandExecution execution)
     {
-        if (isRunning)
+        if (!IsRunning)
         {
-            currentExecution = null;
+            throw new UnityException("Not running");
+        }
+
+        bool removed = currentExecutions.Remove(execution);
+        if (!removed)
+        {
+            throw new UnityException("Command not executing");
+        }
+
+        if (execution.WaitForEnd)
+        {
+            Next();
+            ExecuteScriptLines();
+        }
+        else if (isAwaiting && currentExecutions.Count == 0)
+        {
+            isAwaiting = false;
             Next();
             ExecuteScriptLines();
         }
@@ -124,6 +143,14 @@ public class ScriptPlayer
     public void JumpToLabel(string label)
     {
         lineIndex = adventureScript.GetLineIndexForLabel(label);
+    }
+
+    public void SetIsAwaiting()
+    {
+        if (currentExecutions.Count > 0)
+        {
+            isAwaiting = true;
+        }
     }
 
     private void Next()
@@ -137,10 +164,15 @@ public class ScriptPlayer
 
     private void End()
     {
+        if (currentExecutions.Count > 0)
+        {
+            throw new UnityException("Still executing commands on end, missing Await command");
+        }
+
         lineIndex = startLineIndex;
         if (!isLoopEnabled)
         {
-            isRunning = false;
+            IsRunning = false;
         }
     }
 }

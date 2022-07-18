@@ -1,6 +1,18 @@
 OnClickPathToSampleScene:
 ChangeLocation SampleScene EntranceFromSecondScene
 
+OnClickSphere1:
+Say PlayerActor "Show me a nice place!"
+-- walk together
+Say Sphere1 "Sure, come with me!" DoNotWait
+Walk Sphere1 NicePlace1 DoNotWait
+Wait 1  -- just a small delay before the player starts walking
+Walk PlayerActor NicePlace2 DoNotWait
+Await  -- both actors arrive
+Say Sphere1 "You like it?"
+Say PlayerActor "It's okay."
+Walk Sphere1 Sphere1Location
+
 
 OnClickHammer:
 Say PlayerActor "This is a quiet place."

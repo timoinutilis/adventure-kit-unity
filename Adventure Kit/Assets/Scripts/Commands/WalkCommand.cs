@@ -13,15 +13,18 @@ public class WalkCommand : ICommand
     {
         GameObject actionObject = scriptLine.GetArgGameObject(1);
         GameObject targetObject = scriptLine.GetArgGameObject(2);
+        bool doNotWait = scriptLine.HasDoNotWait();
 
         ActorController actor = actionObject.GetComponent<ActorController>();
 
         if (actor != null)
         {
-            actor.Walk(targetObject.transform.position, scriptPlayer);
-
             WalkCommandExecution execution = new();
             execution.actor = actor;
+            execution.WaitForEnd = !doNotWait;
+
+            actor.Walk(targetObject.transform.position, () => scriptPlayer.Continue(execution));
+
             return execution;
         }
         else
@@ -34,6 +37,8 @@ public class WalkCommand : ICommand
     private class WalkCommandExecution : ICommandExecution
     {
         public ActorController actor;
+
+        public bool WaitForEnd { get; set; }
 
         public void Cancel(ScriptPlayer scriptPlayer)
         {

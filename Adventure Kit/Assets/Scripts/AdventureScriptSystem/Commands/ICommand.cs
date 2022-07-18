@@ -10,5 +10,6 @@ public interface ICommand
 
 public interface ICommandExecution
 {
+    bool WaitForEnd { get; }
     void Cancel(ScriptPlayer scriptPlayer);
 }

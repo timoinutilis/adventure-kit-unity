@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class ChoiceManager : MonoBehaviour
 {
@@ -10,20 +11,20 @@ public class ChoiceManager : MonoBehaviour
     class Choice
     {
         public readonly string text;
-        public readonly string label;
+        public readonly Action action;
 
-        public Choice(string text, string label)
+        public Choice(string text, Action action)
         {
             this.text = text;
-            this.label = label;
+            this.action = action;
         }
     }
 
     public GameObject panel;
     public GameObject[] buttons;
 
-    private List<Choice> choices = new();
-    private ScriptPlayer currentScriptPlayer;
+    private readonly List<Choice> choices = new();
+    private Action completion;
 
     private void Awake()
     {
@@ -40,36 +41,31 @@ public class ChoiceManager : MonoBehaviour
         Refresh();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddChoice(string text, Action action)
     {
+        choices.Add(new Choice(text, action));
     }
 
-    public void AddChoice(string text, string label)
+    public void Show(Action completion)
     {
-        choices.Add(new Choice(text, label));
-    }
-
-    public void Show(ScriptPlayer scriptPlayer)
-    {
-        currentScriptPlayer = scriptPlayer;
+        this.completion = completion;
         Refresh();
     }
 
     public void Clear()
     {
-        currentScriptPlayer = null;
         choices.Clear();
+        completion = null;
         Refresh();
     }
 
     public void OnSelect(int index)
     {
         Choice choice = choices[index];
-        ScriptPlayer scriptPlayer = currentScriptPlayer;
+        Action completion = this.completion;
         Clear();
-        scriptPlayer.JumpToLabel(choice.label);
-        scriptPlayer.Continue();
+        choice.action();
+        completion();
     }
 
     private void Refresh()

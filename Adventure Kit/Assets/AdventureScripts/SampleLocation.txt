@@ -46,8 +46,9 @@ Jump Ask
 
 Buh:
 Say PlayerActor "Buh!"
-Walk Sphere2 Point5
+Walk Sphere2 Point5 DoNotWait
 Say Sphere2 "I'm scared!"
+Await
 Walk Sphere2 Point4
 Say Sphere2 "But it's OK."
 Say Sphere2 "Take my hammer."

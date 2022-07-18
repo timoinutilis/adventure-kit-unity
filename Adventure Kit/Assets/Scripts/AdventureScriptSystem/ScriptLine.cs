@@ -21,9 +21,18 @@ public class ScriptLine
 
     public ScriptLine(string sourceLine)
     {
-        MatchCollection matches = Regex.Matches(sourceLine, @""".*?""|\S+");
-        args = new string[matches.Count];
-        for (int i = 0; i < matches.Count; i++)
+        MatchCollection matches = Regex.Matches(sourceLine, @"--.*|"".*?""|\S+");
+        int count = matches.Count;
+
+        // ignore comment
+        if (count > 0 && matches[count - 1].Value.StartsWith("--"))
+        {
+            count -= 1;
+        }
+
+        // copy arguments
+        args = new string[count];
+        for (int i = 0; i < count; i++)
         {
             string value = matches[i].Value;
             if (value.StartsWith('"'))
@@ -32,6 +41,8 @@ public class ScriptLine
             }
             args[i] = value;
         }
+
+        // check for label
         if (args.Length == 1 && args[0].EndsWith(':'))
         {
             label = args[0].Substring(0, args[0].Length - 1);
@@ -83,5 +94,19 @@ public class ScriptLine
     {
         string value = GetArgValue(index);
         return GameObject.Find(value);
+    }
+
+    public bool HasKeyword(string keyword)
+    {
+        foreach (var arg in args)
+        {
+            if (arg == keyword) return true;
+        }
+        return false;
+    }
+
+    public bool HasDoNotWait()
+    {
+        return HasKeyword("DoNotWait");
     }
 }

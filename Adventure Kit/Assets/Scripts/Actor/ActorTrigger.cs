@@ -12,10 +12,30 @@ public class ActorTrigger : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
+        if (GlobalScriptPlayer.Instance.IsRunning)
+        {
+            return;
+        }
+
         if (localScriptPlayerToStop != null)
         {
             localScriptPlayerToStop.StopExecution();
         }
-        actor.OnInteractableClick(interactable, location.position);
+
+        InventoryItem item = Inventory.Instance.DraggingItem;
+        Inventory.Instance.DraggingItem = null;
+
+        actor.Cancel();
+        actor.Walk(location.position, () =>
+        {
+            if (item != null)
+            {
+                interactable.OnCombineWithItem(item);
+            }
+            else
+            {
+                interactable.OnInteract();
+            }
+        });
     }
 }

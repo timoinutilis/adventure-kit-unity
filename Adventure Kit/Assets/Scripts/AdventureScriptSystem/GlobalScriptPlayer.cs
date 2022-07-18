@@ -11,6 +11,8 @@ public class GlobalScriptPlayer : MonoBehaviour
 
     private ScriptPlayer scriptPlayer;
 
+    public bool IsRunning => scriptPlayer.IsRunning;
+
     private void Awake()
     {
         if (Instance != null)
