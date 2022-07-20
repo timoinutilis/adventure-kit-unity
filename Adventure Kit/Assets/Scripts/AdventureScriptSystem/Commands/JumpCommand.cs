@@ -11,7 +11,7 @@ public class JumpCommand : ICommand
     
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        string label = scriptLine.GetArgValue(1);
+        string label = scriptLine.GetArgLabel(1);
         scriptPlayer.JumpToLabel(label);
         return null;
     }

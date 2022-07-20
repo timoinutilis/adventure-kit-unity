@@ -14,6 +14,7 @@ public class IfCommand : ICommand
         string value1 = scriptLine.GetArgValue(1);
         string comparator = scriptLine.GetArg(2);
         string value2 = scriptLine.GetArgValue(3);
+        scriptLine.ExpectKeyword(4, "Then");
 
         if (Validate(value1, comparator, value2))
         {
@@ -41,7 +42,7 @@ public class IfCommand : ICommand
             case "<=":
                 return int.Parse(value1) <= int.Parse(value2);
             default:
-                return false;
+                throw new ScriptException($"Unknown comparator '{comparator}'");
         }
     }
 }

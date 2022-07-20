@@ -28,6 +28,10 @@ public abstract class CommandManager : MonoBehaviour
 
     public ICommand GetCommand(string name)
     {
+        if (!commandsByName.ContainsKey(name))
+        {
+            throw new ScriptException($"Unknown command '{name}'");
+        }
         return commandsByName[name];
     }
 }

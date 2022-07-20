@@ -25,7 +25,7 @@ public class AdventureScript : MonoBehaviour
         scriptLines = new ScriptLine[sourceLines.Length];
         for (int i = 0; i < sourceLines.Length; i++)
         {
-            ScriptLine line = new ScriptLine(sourceLines[i]);
+            ScriptLine line = new(sourceLines[i], i + 1);
             scriptLines[i] = line;
             if (line.Label != null)
             {
@@ -36,9 +36,10 @@ public class AdventureScript : MonoBehaviour
 
     public int GetLineIndexForLabel(string label)
     {
+        if (!labelLineIndices.ContainsKey(label))
+        {
+            throw new ScriptException($"Undefined label '{label}'");
+        }
         return labelLineIndices[label];
     }
-
-    // File.WriteAllText(AssetDatabase.GetAssetPath(TEXT_ASSET), STRING);
-    // EditorUtility.SetDirty(TEXT_ASSET);
 }

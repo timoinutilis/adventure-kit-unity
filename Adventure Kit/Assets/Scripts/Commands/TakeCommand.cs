@@ -13,6 +13,10 @@ public class TakeCommand : ICommand
     {
         string itemName = scriptLine.GetArgValue(1);
         InventoryItem item = Resources.Load<InventoryItem>("InventoryItems/" + itemName);
+        if (item == null)
+        {
+            throw new ScriptException($"Undefined inventory item '{itemName}'");
+        }
         Inventory.Instance.Add(item);
         return null;
     }

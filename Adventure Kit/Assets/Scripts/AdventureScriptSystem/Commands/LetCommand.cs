@@ -12,10 +12,11 @@ public class LetCommand : ICommand
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         string key = scriptLine.GetArg(1);
+        scriptLine.ExpectKeyword(2, "=");
         string value = scriptLine.GetArgValue(3);
         if (!key.StartsWith("$"))
         {
-            throw new UnityException("Variable must start with $");
+            throw new ScriptException("Variable must start with $");
         }
         GlobalScriptPlayer.Instance.variableManager.SetValueForKey(key[1..], value);
         return null;

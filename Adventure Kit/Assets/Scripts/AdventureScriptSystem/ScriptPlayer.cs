@@ -13,6 +13,7 @@ public class ScriptPlayer
     private int lineIndex = 0;
     private readonly List<ICommandExecution> currentExecutions = new();
     private bool isAwaiting;
+    private bool needsAwaitBeforeEnd;
 
     public bool IsRunning { get; private set; } = false;
 
@@ -69,25 +70,37 @@ public class ScriptPlayer
     {
         while (IsRunning)
         {
-            ScriptLine line = adventureScript.ScriptLines[lineIndex];
-            if (line.Label != null)
+            try
             {
-                // labels end the script
-                End();
-            }
-            else if (line.IsEmpty)
-            {
-                // skip empty line
-                Next();
-            }
-            else
-            {
-                // execute command
-                ICommandExecution execution = ExecuteScriptLine(line);
-                if (execution != null)
+                ScriptLine line = adventureScript.ScriptLines[lineIndex];
+                if (line.Label != null)
                 {
-                    currentExecutions.Add(execution);
-                    if (execution.WaitForEnd)
+                    // labels end the script
+                    End();
+                }
+                else if (line.IsEmpty)
+                {
+                    // skip empty line
+                    Next();
+                }
+                else
+                {
+                    // execute command
+                    ICommandExecution execution = ExecuteScriptLine(line);
+                    if (execution != null)
+                    {
+                        currentExecutions.Add(execution);
+                        if (execution.WaitForEnd)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            needsAwaitBeforeEnd = true;
+                            Next();
+                        }
+                    }
+                    else if (isAwaiting)
                     {
                         return;
                     }
@@ -96,14 +109,11 @@ public class ScriptPlayer
                         Next();
                     }
                 }
-                else if (isAwaiting)
-                {
-                    return;
-                }
-                else
-                {
-                    Next();
-                }
+            }
+            catch (ScriptException exception)
+            {
+                Debug.LogError($"{exception.Message} at {adventureScript.sourceCode.name}:{lineIndex + 1}");
+                StopExecution();
             }
         }
     }
@@ -145,8 +155,14 @@ public class ScriptPlayer
         lineIndex = adventureScript.GetLineIndexForLabel(label);
     }
 
+    public void CheckLabel(string label)
+    {
+        _ = adventureScript.GetLineIndexForLabel(label);
+    }
+
     public void SetIsAwaiting()
     {
+        needsAwaitBeforeEnd = false;
         if (currentExecutions.Count > 0)
         {
             isAwaiting = true;
@@ -164,9 +180,9 @@ public class ScriptPlayer
 
     private void End()
     {
-        if (currentExecutions.Count > 0)
+        if (needsAwaitBeforeEnd)
         {
-            throw new UnityException("Still executing commands on end, missing Await command");
+            throw new ScriptException("Missing 'Await' command after 'DoNotWait'");
         }
 
         lineIndex = startLineIndex;

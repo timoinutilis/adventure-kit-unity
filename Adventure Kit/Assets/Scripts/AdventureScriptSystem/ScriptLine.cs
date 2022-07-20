@@ -7,20 +7,15 @@ using UnityEngine;
 public class ScriptLine
 {
     private string[] args;
-    private string label;
 
-    public string Label
-    {
-        get => label;
-    }
+    public int LineNumber { get; }
+    public string Label { get; }
+    public bool IsEmpty => args.Length == 0;
 
-    public bool IsEmpty
+    public ScriptLine(string sourceLine, int lineNumber)
     {
-        get => args.Length == 0;
-    }
+        LineNumber = lineNumber;
 
-    public ScriptLine(string sourceLine)
-    {
         MatchCollection matches = Regex.Matches(sourceLine, @"--.*|"".*?""|\S+");
         int count = matches.Count;
 
@@ -45,13 +40,18 @@ public class ScriptLine
         // check for label
         if (args.Length == 1 && args[0].EndsWith(':'))
         {
-            label = args[0].Substring(0, args[0].Length - 1);
+            Label = args[0].Substring(0, args[0].Length - 1);
         }
     }
 
     // Copy script line removing the first arguments
     public ScriptLine(ScriptLine sourceScriptLine, int startArgIndex)
     {
+        if (startArgIndex >= sourceScriptLine.args.Length)
+        {
+            throw new ScriptException("Unexpected end of line");
+        }
+        LineNumber = sourceScriptLine.LineNumber;
         int len = sourceScriptLine.args.Length - startArgIndex;
         args = new string[len];
         Array.Copy(sourceScriptLine.args, startArgIndex, args, 0, len);
@@ -61,6 +61,10 @@ public class ScriptLine
     // literal argument
     public string GetArg(int index)
     {
+        if (index >= args.Length)
+        {
+            throw new ScriptException("Missing parameter(s)");
+        }
         return args[index];
     }
 
@@ -79,21 +83,60 @@ public class ScriptLine
     public int GetArgInt(int index)
     {
         string value = GetArgValue(index);
-        return int.Parse(value);
+        try
+        {
+            return int.Parse(value);
+        }
+        catch (FormatException)
+        {
+            throw new ScriptException($"Expected integer number instead of '{value}'");
+        }
     }
 
     // argument value as float
     public float GetArgFloat(int index)
     {
         string value = GetArgValue(index);
-        return float.Parse(value, CultureInfo.InvariantCulture);
+        try
+        {
+            return float.Parse(value, CultureInfo.InvariantCulture);
+        }
+        catch (FormatException)
+        {
+            throw new ScriptException($"Expected number instead of '{value}'");
+        }
     }
 
     // GameObject with name of argument value
     public GameObject GetArgGameObject(int index)
     {
         string value = GetArgValue(index);
-        return GameObject.Find(value);
+        GameObject obj = GameObject.Find(value);
+        if (obj == null)
+        {
+            throw new ScriptException($"Cannot find object with name '{value}'");
+        }
+        return obj;
+    }
+
+    // literal argument with label validation
+    public string GetArgLabel(int index, ScriptPlayer scriptPlayer = null)
+    {
+        string arg = GetArg(index);
+        if (arg.StartsWith("$"))
+        {
+            throw new ScriptException("Label cannot be a variable");
+        }
+        scriptPlayer?.CheckLabel(arg);
+        return arg;
+    }
+    
+    public void ExpectKeyword(int index, string keyword)
+    {
+        if (index >= args.Length || args[index] != keyword)
+        {
+            throw new ScriptException($"Missing keyword '{keyword}'");
+        }
     }
 
     public bool HasKeyword(string keyword)
