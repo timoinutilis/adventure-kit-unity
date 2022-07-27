@@ -19,6 +19,7 @@ public class JumpCommand : ICommand
         return null;
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         string label = scriptLine.GetArgValue(1, null);
@@ -26,4 +27,5 @@ public class JumpCommand : ICommand
 
         _ = adventureScript.GetLineIndexForLabel(label);
     }
+#endif
 }

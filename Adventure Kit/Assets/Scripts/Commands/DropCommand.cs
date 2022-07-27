@@ -20,6 +20,7 @@ public class DropCommand : ICommand
         return null;
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         string itemName = scriptLine.GetArgValue(1, null);
@@ -31,4 +32,5 @@ public class DropCommand : ICommand
             throw new ScriptException($"Undefined inventory item '{itemName}'");
         }
     }
+#endif
 }

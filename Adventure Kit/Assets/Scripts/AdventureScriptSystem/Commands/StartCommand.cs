@@ -20,6 +20,7 @@ public class StartCommand : ICommand
         return null;
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         GameObject gameObject = scriptLine.GetArgGameObject(1, null);
@@ -31,4 +32,5 @@ public class StartCommand : ICommand
             throw new ScriptException($"Object '{gameObject.name}' does not have a LocalScriptPlayer");
         }
     }
+#endif
 }

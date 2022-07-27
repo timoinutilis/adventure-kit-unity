@@ -36,6 +36,7 @@ public class WalkCommand : ICommand
         }
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         _ = scriptLine.GetArgGameObject(1, null);
@@ -43,6 +44,7 @@ public class WalkCommand : ICommand
         // DoNotWait
         scriptLine.ExpectEndOfLine(4);
     }
+#endif
 
     private class WalkCommandExecution : ICommandExecution
     {

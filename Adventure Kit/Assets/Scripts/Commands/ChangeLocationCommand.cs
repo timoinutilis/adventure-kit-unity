@@ -21,6 +21,7 @@ public class ChangeLocationCommand : ICommand
         return null;
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         string sceneName = scriptLine.GetArgValue(1, null);
@@ -33,4 +34,5 @@ public class ChangeLocationCommand : ICommand
             throw new ScriptException($"Did not find scene with name '{sceneName}'");
         }
     }
+#endif
 }

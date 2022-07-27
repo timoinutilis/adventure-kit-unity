@@ -27,6 +27,7 @@ public class IfCommand : ICommand
         return null;
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         string value1 = scriptLine.GetArgValue(1, null);
@@ -37,6 +38,7 @@ public class IfCommand : ICommand
         ScriptLine thenScriptLine = new(scriptLine, 5);
         adventureScript.TestScriptLine(thenScriptLine);
     }
+#endif
 
     bool Validate(string value1, string comparator, string value2)
     {

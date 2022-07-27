@@ -22,7 +22,10 @@ public class AdventureScript : MonoBehaviour
         commandManager = GlobalScriptPlayer.Instance.commandManager;
 
         Parse();
+
+#if DEBUG
         Test();
+#endif
     }
 
     public int GetLineIndexForLabel(string label)
@@ -49,6 +52,7 @@ public class AdventureScript : MonoBehaviour
         }
     }
 
+#if DEBUG
     private void Test()
     {
         for (int lineIndex = 0; lineIndex < ScriptLines.Length; ++lineIndex)
@@ -73,4 +77,5 @@ public class AdventureScript : MonoBehaviour
         ICommand command = commandManager.GetCommand(scriptLine.GetArg(0));
         command.Test(this, scriptLine);
     }
+#endif
 }

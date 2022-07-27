@@ -23,11 +23,13 @@ public class WaitCommand : ICommand
         return execution;
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         _ = scriptLine.GetArgFloat(1, null);
         scriptLine.ExpectEndOfLine(2);
     }
+#endif
 
     IEnumerator WaitCoroutine(ScriptPlayer scriptPlayer, WaitCommandExecution execution)
     {

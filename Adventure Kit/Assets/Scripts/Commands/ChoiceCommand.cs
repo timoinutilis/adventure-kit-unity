@@ -20,6 +20,7 @@ public class ChoiceCommand : ICommand
         return null;
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         _ = scriptLine.GetArgValue(1, null);
@@ -28,4 +29,5 @@ public class ChoiceCommand : ICommand
 
         _ = adventureScript.GetLineIndexForLabel(label);
     }
+#endif
 }

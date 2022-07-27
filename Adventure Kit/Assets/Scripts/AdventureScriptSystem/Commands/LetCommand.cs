@@ -20,6 +20,7 @@ public class LetCommand : ICommand
         return null;
     }
 
+#if DEBUG
     public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
     {
         _ = scriptLine.GetArgVariable(1);
@@ -27,4 +28,5 @@ public class LetCommand : ICommand
         _ = scriptLine.GetArgValue(3, null);
         scriptLine.ExpectEndOfLine(4);
     }
+#endif
 }

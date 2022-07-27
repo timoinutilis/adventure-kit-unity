@@ -6,7 +6,9 @@ public interface ICommand
 {
     string Name { get; }
     ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine);
+#if DEBUG
     void Test(AdventureScript adventureScript, ScriptLine scriptLine);
+#endif
 }
 
 public interface ICommandExecution
