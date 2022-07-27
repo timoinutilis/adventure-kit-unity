@@ -11,8 +11,10 @@ public class SayCommand : ICommand
     
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        GameObject gameObject = scriptLine.GetArgGameObject(1);
-        string text = scriptLine.GetArgValue(2);
+        VariableManager vm = scriptPlayer.variableManager;
+
+        GameObject gameObject = scriptLine.GetArgGameObject(1, vm);
+        string text = scriptLine.GetArgValue(2, vm);
         bool doNotWait = scriptLine.HasDoNotWait();
 
         ActorController actor = gameObject.GetComponent<ActorController>();
@@ -26,6 +28,13 @@ public class SayCommand : ICommand
         return execution;
     }
 
+    public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
+    {
+        _ = scriptLine.GetArgGameObject(1, null);
+        _ = scriptLine.GetArgValue(2, null);
+        // DoNotWait
+        scriptLine.ExpectEndOfLine(4);
+    }
 
     private class SayCommandExecution : ICommandExecution
     {

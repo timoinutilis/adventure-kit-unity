@@ -5,6 +5,8 @@ using UnityEngine;
 public class ScriptPlayer
 {
     public readonly MonoBehaviour monoBehaviour;
+    public readonly CommandManager commandManager;
+    public readonly VariableManager variableManager;
 
     private AdventureScript adventureScript;
     private bool isLoopEnabled;
@@ -17,9 +19,11 @@ public class ScriptPlayer
 
     public bool IsRunning { get; private set; } = false;
 
-    public ScriptPlayer(MonoBehaviour monoBehaviour)
+    public ScriptPlayer(MonoBehaviour monoBehaviour, CommandManager commandManager, VariableManager variableManager)
     {
         this.monoBehaviour = monoBehaviour;
+        this.commandManager = commandManager;
+        this.variableManager = variableManager;
     }
 
     public void Execute(AdventureScript adventureScript, string startLabel, bool isLoopEnabled)
@@ -120,7 +124,7 @@ public class ScriptPlayer
 
     public ICommandExecution ExecuteScriptLine(ScriptLine scriptLine)
     {
-        ICommand command = GlobalScriptPlayer.Instance.commandManager.GetCommand(scriptLine.GetArg(0));
+        ICommand command = commandManager.GetCommand(scriptLine.GetArg(0));
         return command.Execute(this, scriptLine);
     }
 
@@ -153,11 +157,6 @@ public class ScriptPlayer
     public void JumpToLabel(string label)
     {
         lineIndex = adventureScript.GetLineIndexForLabel(label);
-    }
-
-    public void CheckLabel(string label)
-    {
-        _ = adventureScript.GetLineIndexForLabel(label);
     }
 
     public void SetIsAwaiting()

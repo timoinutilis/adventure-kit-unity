@@ -11,24 +11,16 @@ public class LocalScriptPlayer : MonoBehaviour
 
     private ScriptPlayer scriptPlayer;
 
-    private void Awake()
-    {
-        scriptPlayer = new ScriptPlayer(this);
-    }
-
     // Start is called before the first frame update
     void Start()
     {
+        GlobalScriptPlayer global = GlobalScriptPlayer.Instance;
+        scriptPlayer = new ScriptPlayer(this, global.commandManager, global.variableManager);
+
         if (startsImmediately)
         {
             Execute();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void Execute()

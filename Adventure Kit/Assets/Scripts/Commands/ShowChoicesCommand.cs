@@ -16,6 +16,10 @@ public class ShowChoicesCommand : ICommand
         return execution;
     }
 
+    public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
+    {
+        scriptLine.ExpectEndOfLine(1);
+    }
 
     private class ShowChoicesCommandExecution : ICommandExecution
     {

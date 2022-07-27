@@ -11,8 +11,10 @@ public class WalkCommand : ICommand
     
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        GameObject actionObject = scriptLine.GetArgGameObject(1);
-        GameObject targetObject = scriptLine.GetArgGameObject(2);
+        VariableManager vm = scriptPlayer.variableManager;
+
+        GameObject actionObject = scriptLine.GetArgGameObject(1, vm);
+        GameObject targetObject = scriptLine.GetArgGameObject(2, vm);
         bool doNotWait = scriptLine.HasDoNotWait();
 
         ActorController actor = actionObject.GetComponent<ActorController>();
@@ -32,6 +34,14 @@ public class WalkCommand : ICommand
             actionObject.transform.position = targetObject.transform.position;
             return null;
         }
+    }
+
+    public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
+    {
+        _ = scriptLine.GetArgGameObject(1, null);
+        _ = scriptLine.GetArgGameObject(2, null);
+        // DoNotWait
+        scriptLine.ExpectEndOfLine(4);
     }
 
     private class WalkCommandExecution : ICommandExecution

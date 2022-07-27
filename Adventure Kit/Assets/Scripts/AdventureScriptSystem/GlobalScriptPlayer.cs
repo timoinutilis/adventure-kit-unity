@@ -21,7 +21,7 @@ public class GlobalScriptPlayer : MonoBehaviour
         }
         Instance = this;
 
-        scriptPlayer = new ScriptPlayer(this);
+        scriptPlayer = new ScriptPlayer(this, commandManager, variableManager);
     }
 
     public void Execute(AdventureScript adventureScript, string startLabel)

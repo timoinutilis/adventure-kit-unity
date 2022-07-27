@@ -11,4 +11,9 @@ public class AwaitCommand : ICommand
         scriptPlayer.SetIsAwaiting();
         return null;
     }
+
+    public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
+    {
+        scriptLine.ExpectEndOfLine(1);
+    }
 }

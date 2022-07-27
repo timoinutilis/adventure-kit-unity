@@ -69,20 +69,53 @@ public class ScriptLine
     }
 
     // argument or value of its variable
-    public string GetArgValue(int index)
+    public string GetArgValue(int index, VariableManager variableManager)
     {
         string arg = GetArg(index);
         if (arg.StartsWith("$"))
         {
-            return GlobalScriptPlayer.Instance.variableManager.GetValueForKey(arg[1..]);
+            if (arg.Length < 2)
+            {
+                throw new ScriptException("Invalid variable name");
+            }
+            if (variableManager != null)
+            {
+                // runtime
+                return variableManager.GetValueForKey(arg[1..]);
+            }
+            else
+            {
+                // in test
+                return null;
+            }
         }
         return arg;
     }
 
-    // argument value as int
-    public int GetArgInt(int index)
+    // variable name (not its value) of argument
+    public string GetArgVariable(int index)
     {
-        string value = GetArgValue(index);
+        string arg = GetArg(index);
+        if (!arg.StartsWith("$"))
+        {
+            throw new ScriptException("Variable must start with $");
+        }
+        if (arg.Length < 2)
+        {
+            throw new ScriptException("Invalid variable name");
+        }
+        return arg[1..];
+    }
+
+    // argument value as int
+    public int GetArgInt(int index, VariableManager variableManager)
+    {
+        string value = GetArgValue(index, variableManager);
+        if (value == null)
+        {
+            return 0; // variable in test
+        }
+
         try
         {
             return int.Parse(value);
@@ -94,9 +127,14 @@ public class ScriptLine
     }
 
     // argument value as float
-    public float GetArgFloat(int index)
+    public float GetArgFloat(int index, VariableManager variableManager)
     {
-        string value = GetArgValue(index);
+        string value = GetArgValue(index, variableManager);
+        if (value == null)
+        {
+            return 0; // variable in test
+        }
+
         try
         {
             return float.Parse(value, CultureInfo.InvariantCulture);
@@ -108,9 +146,14 @@ public class ScriptLine
     }
 
     // GameObject with name of argument value
-    public GameObject GetArgGameObject(int index)
+    public GameObject GetArgGameObject(int index, VariableManager variableManager)
     {
-        string value = GetArgValue(index);
+        string value = GetArgValue(index, variableManager);
+        if (value == null)
+        {
+            return null; // variable in test
+        }
+
         GameObject obj = GameObject.Find(value);
         if (obj == null)
         {
@@ -119,23 +162,19 @@ public class ScriptLine
         return obj;
     }
 
-    // literal argument with label validation
-    public string GetArgLabel(int index, ScriptPlayer scriptPlayer = null)
-    {
-        string arg = GetArg(index);
-        if (arg.StartsWith("$"))
-        {
-            throw new ScriptException("Label cannot be a variable");
-        }
-        scriptPlayer?.CheckLabel(arg);
-        return arg;
-    }
-    
     public void ExpectKeyword(int index, string keyword)
     {
         if (index >= args.Length || args[index] != keyword)
         {
             throw new ScriptException($"Missing keyword '{keyword}'");
+        }
+    }
+
+    public void ExpectEndOfLine(int index)
+    {
+        if (args.Length > index)
+        {
+            throw new ScriptException("Too many arguments");
         }
     }
 

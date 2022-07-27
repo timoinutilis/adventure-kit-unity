@@ -14,7 +14,7 @@ public class GameVariableManager : VariableManager
         {
             return variable.value;
         }
-        return null;
+        return "";
     }
 
     public override void SetValueForKey(string key, string value)

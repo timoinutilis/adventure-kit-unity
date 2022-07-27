@@ -11,14 +11,20 @@ public class LetCommand : ICommand
     
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        string key = scriptLine.GetArg(1);
-        scriptLine.ExpectKeyword(2, "=");
-        string value = scriptLine.GetArgValue(3);
-        if (!key.StartsWith("$"))
-        {
-            throw new ScriptException("Variable must start with $");
-        }
-        GlobalScriptPlayer.Instance.variableManager.SetValueForKey(key[1..], value);
+        VariableManager vm = scriptPlayer.variableManager;
+
+        string key = scriptLine.GetArgVariable(1);
+        string value = scriptLine.GetArgValue(3, vm);
+
+        scriptPlayer.variableManager.SetValueForKey(key, value);
         return null;
+    }
+
+    public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
+    {
+        _ = scriptLine.GetArgVariable(1);
+        scriptLine.ExpectKeyword(2, "=");
+        _ = scriptLine.GetArgValue(3, null);
+        scriptLine.ExpectEndOfLine(4);
     }
 }

@@ -11,8 +11,19 @@ public class JumpCommand : ICommand
     
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        string label = scriptLine.GetArgLabel(1);
+        VariableManager vm = scriptPlayer.variableManager;
+
+        string label = scriptLine.GetArgValue(1, vm);
+
         scriptPlayer.JumpToLabel(label);
         return null;
+    }
+
+    public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
+    {
+        string label = scriptLine.GetArgValue(1, null);
+        scriptLine.ExpectEndOfLine(2);
+
+        _ = adventureScript.GetLineIndexForLabel(label);
     }
 }

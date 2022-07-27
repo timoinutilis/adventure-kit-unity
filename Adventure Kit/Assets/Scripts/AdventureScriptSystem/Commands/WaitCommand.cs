@@ -11,7 +11,9 @@ public class WaitCommand : ICommand
     
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
-        float seconds = scriptLine.GetArgFloat(1);
+        VariableManager vm = scriptPlayer.variableManager;
+
+        float seconds = scriptLine.GetArgFloat(1, vm);
 
         WaitCommandExecution execution = new();
 
@@ -19,6 +21,12 @@ public class WaitCommand : ICommand
         execution.coroutine = WaitCoroutine(scriptPlayer, execution);
         scriptPlayer.monoBehaviour.StartCoroutine(execution.coroutine);
         return execution;
+    }
+
+    public void Test(AdventureScript adventureScript, ScriptLine scriptLine)
+    {
+        _ = scriptLine.GetArgFloat(1, null);
+        scriptLine.ExpectEndOfLine(2);
     }
 
     IEnumerator WaitCoroutine(ScriptPlayer scriptPlayer, WaitCommandExecution execution)
