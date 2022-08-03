@@ -7,7 +7,10 @@ public class Interactable : MonoBehaviour
 {
     public AdventureScript adventureScript;
     public string clickLabel;
+
+    [DefaultLabel("OnUse{item}With{object}")]
     public Combination[] combinations;
+
     public string fallbackCombinationLabel;
 
     public void OnInteract()
