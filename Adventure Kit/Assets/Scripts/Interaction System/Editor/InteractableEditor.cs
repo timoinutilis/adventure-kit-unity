@@ -2,28 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 
 [CustomEditor(typeof(Interactable))]
 public class InteractableEditor : Editor
 {
-    SerializedProperty adventureScript;
-    SerializedProperty clickLabel;
-    SerializedProperty combinations;
-    SerializedProperty fallbackCombinationLabel;
+    private SerializedProperty adventureScript;
+    private SerializedProperty clickLabel;
+    private SerializedProperty combinations;
+    private SerializedProperty fallbackCombinationLabel;
 
-    void OnEnable()
+    private ReorderableList combinationsList;
+
+    private void OnEnable()
     {
         adventureScript = serializedObject.FindProperty("adventureScript");
         clickLabel = serializedObject.FindProperty("clickLabel");
         combinations = serializedObject.FindProperty("combinations");
         fallbackCombinationLabel = serializedObject.FindProperty("fallbackCombinationLabel");
 
-        CombinationDrawer.onClickEditEvent.AddListener(onClickEditCombination);
-    }
-
-    private void OnDisable()
-    {
-        CombinationDrawer.onClickEditEvent.RemoveListener(onClickEditCombination);
+        combinationsList = new ReorderableList(serializedObject, combinations, true, false, true, true)
+        {
+            drawElementCallback = DrawElement,
+            elementHeightCallback = CombinationEditorUtils.ElementHeight
+        };
     }
 
     public override void OnInspectorGUI()
@@ -34,19 +36,34 @@ public class InteractableEditor : Editor
 
         EditorGUILayout.PropertyField(adventureScript);
         InteractionEditorUtils.ScriptLabelProperty(clickLabel, interactable.adventureScript, $"OnClick{interactable.gameObject.name}");
-        EditorGUILayout.PropertyField(combinations);
+
+        combinations.isExpanded = EditorGUILayout.Foldout(combinations.isExpanded, "Combinations", true);
+        if (combinations.isExpanded)
+        {
+            combinationsList.DoLayoutList();
+        }
+
         InteractionEditorUtils.ScriptLabelProperty(fallbackCombinationLabel, interactable.adventureScript, $"OnFallback{interactable.gameObject.name}");
 
         serializedObject.ApplyModifiedProperties();
     }
-
-    void onClickEditCombination(MonoBehaviour monoBehaviour, string label, bool createIfNew)
+    
+    private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
     {
+        SerializedProperty property = combinationsList.serializedProperty.GetArrayElementAtIndex(index);
         Interactable interactable = (Interactable)target;
+        CombinationEditorUtils.DrawProperty(rect, property, interactable.adventureScript, DefaultLabel);
+    }
 
-        if (monoBehaviour == interactable)
+    private string DefaultLabel(SerializedProperty property)
+    {
+        SerializedProperty itemProperty = property.FindPropertyRelative("item");
+        InventoryItem inventoryItem = itemProperty.objectReferenceValue as InventoryItem;
+        if (inventoryItem == null)
         {
-            interactable.adventureScript.EditScript(label, createIfNew);
+            return null;
         }
+        Interactable interactable = (Interactable)target;
+        return $"OnUse{inventoryItem.name}With{interactable.gameObject.name}";
     }
 }

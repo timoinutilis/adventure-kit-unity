@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 
 [CustomEditor(typeof(InventoryItemHandler))]
 public class InventoryItemHandlerEditor : Editor
@@ -14,6 +15,10 @@ public class InventoryItemHandlerEditor : Editor
     SerializedProperty interactions;
     SerializedProperty fallbackInteractionLabel;
 
+    private ReorderableList combinationsList;
+    private ReorderableList fallbackCombinationsList;
+    private ReorderableList interactionsList;
+
     void OnEnable()
     {
         priority = serializedObject.FindProperty("priority");
@@ -24,16 +29,24 @@ public class InventoryItemHandlerEditor : Editor
         interactions = serializedObject.FindProperty("interactions");
         fallbackInteractionLabel = serializedObject.FindProperty("fallbackInteractionLabel");
 
-        CombinationDrawer.onClickEditEvent.AddListener(onClickEditCombination);
-        DualCombinationDrawer.onClickEditEvent.AddListener(onClickEditCombination);
-    }
+        combinationsList = new ReorderableList(serializedObject, combinations, true, false, true, true)
+        {
+            drawElementCallback = DrawCombination,
+            elementHeightCallback = DualCombinationEditorUtils.ElementHeight
+        };
+        
+        fallbackCombinationsList = new ReorderableList(serializedObject, fallbackCombinations, true, false, true, true)
+        {
+            drawElementCallback = DrawFallbackCombination,
+            elementHeightCallback = CombinationEditorUtils.ElementHeight
+        };
 
-    private void OnDisable()
-    {
-        CombinationDrawer.onClickEditEvent.RemoveListener(onClickEditCombination);
-        DualCombinationDrawer.onClickEditEvent.RemoveListener(onClickEditCombination);
+        interactionsList = new ReorderableList(serializedObject, interactions, true, false, true, true)
+        {
+            drawElementCallback = DrawInteraction,
+            elementHeightCallback = CombinationEditorUtils.ElementHeight
+        };
     }
-
 
     public override void OnInspectorGUI()
     {
@@ -43,22 +56,83 @@ public class InventoryItemHandlerEditor : Editor
 
         EditorGUILayout.PropertyField(priority);
         EditorGUILayout.PropertyField(adventureScript);
-        EditorGUILayout.PropertyField(combinations);
-        EditorGUILayout.PropertyField(fallbackCombinations);
+
+        combinations.isExpanded = EditorGUILayout.Foldout(combinations.isExpanded, "Combinations", true);
+        if (combinations.isExpanded)
+        {
+            combinationsList.DoLayoutList();
+        }
+
+        fallbackCombinations.isExpanded = EditorGUILayout.Foldout(fallbackCombinations.isExpanded, "Fallback Combinations", true);
+        if (fallbackCombinations.isExpanded)
+        {
+            fallbackCombinationsList.DoLayoutList();
+        }
+
         InteractionEditorUtils.ScriptLabelProperty(fallbackCombinationLabel, inventoryItemHandler.adventureScript, "OnCombineFallback");
-        EditorGUILayout.PropertyField(interactions);
+
+        interactions.isExpanded = EditorGUILayout.Foldout(interactions.isExpanded, "Interactions", true);
+        if (interactions.isExpanded)
+        {
+            interactionsList.DoLayoutList();
+        }
+
         InteractionEditorUtils.ScriptLabelProperty(fallbackInteractionLabel, inventoryItemHandler.adventureScript, "OnInteractFallback");
 
         serializedObject.ApplyModifiedProperties();
     }
 
-    void onClickEditCombination(MonoBehaviour monoBehaviour, string label, bool createIfNew)
+    private void DrawCombination(Rect rect, int index, bool isActive, bool isFocused)
     {
+        SerializedProperty property = combinationsList.serializedProperty.GetArrayElementAtIndex(index);
         InventoryItemHandler inventoryItemHandler = (InventoryItemHandler)target;
+        DualCombinationEditorUtils.DrawProperty(rect, property, inventoryItemHandler.adventureScript, CombinationDefaultLabel);
+    }
 
-        if (monoBehaviour == inventoryItemHandler)
+    private string CombinationDefaultLabel(SerializedProperty property)
+    {
+        InventoryItem inventoryItem1 = property.FindPropertyRelative("item1").objectReferenceValue as InventoryItem;
+        InventoryItem inventoryItem2 = property.FindPropertyRelative("item2").objectReferenceValue as InventoryItem;
+        if (inventoryItem1 == null || inventoryItem2 == null)
         {
-            inventoryItemHandler.adventureScript.EditScript(label, createIfNew);
+            return null;
         }
+        return $"OnUse{inventoryItem1.name}With{inventoryItem2.name}";
+    }
+    
+    private void DrawFallbackCombination(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        SerializedProperty property = fallbackCombinationsList.serializedProperty.GetArrayElementAtIndex(index);
+        InventoryItemHandler inventoryItemHandler = (InventoryItemHandler)target;
+        CombinationEditorUtils.DrawProperty(rect, property, inventoryItemHandler.adventureScript, FallbackCombinationDefaultLabel);
+    }
+
+    private string FallbackCombinationDefaultLabel(SerializedProperty property)
+    {
+        SerializedProperty itemProperty = property.FindPropertyRelative("item");
+        InventoryItem inventoryItem = itemProperty.objectReferenceValue as InventoryItem;
+        if (inventoryItem == null)
+        {
+            return null;
+        }
+        return $"OnUse{inventoryItem.name}Fallback";
+    }
+
+    private void DrawInteraction(Rect rect, int index, bool isActive, bool isFocused)
+    {
+        SerializedProperty property = interactionsList.serializedProperty.GetArrayElementAtIndex(index);
+        InventoryItemHandler inventoryItemHandler = (InventoryItemHandler)target;
+        CombinationEditorUtils.DrawProperty(rect, property, inventoryItemHandler.adventureScript, InteractionDefaultLabel);
+    }
+
+    private string InteractionDefaultLabel(SerializedProperty property)
+    {
+        SerializedProperty itemProperty = property.FindPropertyRelative("item");
+        InventoryItem inventoryItem = itemProperty.objectReferenceValue as InventoryItem;
+        if (inventoryItem == null)
+        {
+            return null;
+        }
+        return $"OnClick{inventoryItem.name}";
     }
 }
