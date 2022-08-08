@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 
 public static class CombinationEditorUtils
 {
@@ -49,5 +50,14 @@ public static class CombinationEditorUtils
                 adventureScript.EditScript(labelProperty.stringValue, false);
             }
         }
+    }
+
+    public static void AddElement(ReorderableList list)
+    {
+        list.serializedProperty.arraySize = list.count + 1;
+        list.index = list.serializedProperty.arraySize - 1;
+        SerializedProperty element = list.serializedProperty.GetArrayElementAtIndex(list.index);
+        element.FindPropertyRelative("item").objectReferenceValue = null;
+        element.FindPropertyRelative("label").stringValue = "";
     }
 }

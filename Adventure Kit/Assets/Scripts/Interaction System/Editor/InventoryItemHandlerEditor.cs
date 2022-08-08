@@ -32,19 +32,22 @@ public class InventoryItemHandlerEditor : Editor
         combinationsList = new ReorderableList(serializedObject, combinations, true, false, true, true)
         {
             drawElementCallback = DrawCombination,
-            elementHeightCallback = DualCombinationEditorUtils.ElementHeight
+            elementHeightCallback = DualCombinationEditorUtils.ElementHeight,
+            onAddCallback = DualCombinationEditorUtils.AddElement
         };
         
         fallbackCombinationsList = new ReorderableList(serializedObject, fallbackCombinations, true, false, true, true)
         {
             drawElementCallback = DrawFallbackCombination,
-            elementHeightCallback = CombinationEditorUtils.ElementHeight
+            elementHeightCallback = CombinationEditorUtils.ElementHeight,
+            onAddCallback = CombinationEditorUtils.AddElement
         };
 
         interactionsList = new ReorderableList(serializedObject, interactions, true, false, true, true)
         {
             drawElementCallback = DrawInteraction,
-            elementHeightCallback = CombinationEditorUtils.ElementHeight
+            elementHeightCallback = CombinationEditorUtils.ElementHeight,
+            onAddCallback = CombinationEditorUtils.AddElement
         };
     }
 

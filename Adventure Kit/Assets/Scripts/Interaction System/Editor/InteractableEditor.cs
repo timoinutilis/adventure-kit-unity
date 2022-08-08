@@ -24,7 +24,8 @@ public class InteractableEditor : Editor
         combinationsList = new ReorderableList(serializedObject, combinations, true, false, true, true)
         {
             drawElementCallback = DrawElement,
-            elementHeightCallback = CombinationEditorUtils.ElementHeight
+            elementHeightCallback = CombinationEditorUtils.ElementHeight,
+            onAddCallback = CombinationEditorUtils.AddElement
         };
     }
 
