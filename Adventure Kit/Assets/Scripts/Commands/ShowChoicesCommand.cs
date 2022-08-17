@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class ShowChoicesCommand : ICommand
 {
+    private ChoiceManager choiceManager;
+
+    public ShowChoicesCommand(ChoiceManager choiceManager)
+    {
+        this.choiceManager = choiceManager;
+    }
+
     public string Name
     {
         get { return "ShowChoices"; }
@@ -12,7 +19,8 @@ public class ShowChoicesCommand : ICommand
     public ICommandExecution Execute(ScriptPlayer scriptPlayer, ScriptLine scriptLine)
     {
         ShowChoicesCommandExecution execution = new();
-        ChoiceManager.Instance.Show(() => scriptPlayer.Continue(execution));
+        execution.choiceManager = choiceManager;
+        choiceManager.Show(() => scriptPlayer.Continue(execution));
         return execution;
     }
 
@@ -25,11 +33,12 @@ public class ShowChoicesCommand : ICommand
 
     private class ShowChoicesCommandExecution : ICommandExecution
     {
+        public ChoiceManager choiceManager;
         public bool WaitForEnd => true;
 
         public void Cancel(ScriptPlayer scriptPlayer)
         {
-            ChoiceManager.Instance.Clear();
+            choiceManager.Clear();
         }
     }
 }

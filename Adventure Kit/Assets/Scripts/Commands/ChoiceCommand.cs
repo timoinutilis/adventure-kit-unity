@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class ChoiceCommand : ICommand
 {
+    private ChoiceManager choiceManager;
+
+    public ChoiceCommand(ChoiceManager choiceManager)
+    {
+        this.choiceManager = choiceManager;
+    }
+
     public string Name
     {
         get { return "Choice"; }
@@ -16,7 +23,7 @@ public class ChoiceCommand : ICommand
         string text = scriptLine.GetArgValue(1, vm);
         string label = scriptLine.GetArgValue(2, vm);
 
-        ChoiceManager.Instance.AddChoice(text, () => scriptPlayer.JumpToLabel(label));
+        choiceManager.AddChoice(text, () => scriptPlayer.JumpToLabel(label));
         return null;
     }
 

@@ -345,6 +345,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a96ec92fdf6749268ae9e6093f592c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locationManager: {fileID: 4920100018867421098}
+  inventory: {fileID: 2410259101535190249}
+  choiceManager: {fileID: 5224862850843477857}
 --- !u!114 &290187259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2838,6 +2841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc8f9e9cd863a48d1872f63387d772cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 2410259101535190249}
   buttons:
   - {fileID: 5224862852388736770}
   - {fileID: 5224862850690119612}

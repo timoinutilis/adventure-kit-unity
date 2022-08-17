@@ -6,8 +6,6 @@ using System;
 
 public class ChoiceManager : MonoBehaviour
 {
-    public static ChoiceManager Instance { get; private set; }
-
     class Choice
     {
         public readonly string text;
@@ -25,16 +23,7 @@ public class ChoiceManager : MonoBehaviour
 
     private readonly List<Choice> choices = new();
     private Action completion;
-
-    private void Awake()
-    {
-        if (Instance != null)
-        {
-            throw new UnityException("ChoiceManager must exist only once");
-        }
-        Instance = this;
-    }
-
+    
     // Start is called before the first frame update
     void Start()
     {

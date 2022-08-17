@@ -32,7 +32,7 @@ public class Inventory : MonoBehaviour
     {
         if (Instance != null)
         {
-            throw new UnityException("GlobalScriptPlayer must exist only once");
+            throw new UnityException("Inventory must exist only once");
         }
         Instance = this;
     }
@@ -65,7 +65,7 @@ public class Inventory : MonoBehaviour
     {
         handlers.Remove(handler);
     }
-    
+
     public void OnItemInteract(InventoryItem item)
     {
         foreach (var handler in handlers)

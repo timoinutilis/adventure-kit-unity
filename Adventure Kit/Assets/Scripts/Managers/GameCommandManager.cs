@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class GameCommandManager : CommandManager
 {
+    public LocationManager locationManager;
+    public Inventory inventory;
+    public ChoiceManager choiceManager;
+
     protected override void AddCustomCommands()
     {
         AddCommand(new SayCommand());
         AddCommand(new WalkCommand());
-        AddCommand(new ChoiceCommand());
-        AddCommand(new ShowChoicesCommand());
-        AddCommand(new TakeCommand());
-        AddCommand(new DropCommand());
-        AddCommand(new ChangeLocationCommand());
+        AddCommand(new ChoiceCommand(choiceManager));
+        AddCommand(new ShowChoicesCommand(choiceManager));
+        AddCommand(new TakeCommand(inventory));
+        AddCommand(new DropCommand(inventory));
+        AddCommand(new ChangeLocationCommand(locationManager));
     }
 }

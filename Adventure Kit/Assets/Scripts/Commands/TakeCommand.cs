@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class TakeCommand : ICommand
 {
+    private Inventory inventory;
+
+    public TakeCommand(Inventory inventory)
+    {
+        this.inventory = inventory;
+    }
+
     public string Name
     {
         get { return "Take"; }
@@ -16,7 +23,7 @@ public class TakeCommand : ICommand
         string itemName = scriptLine.GetArgValue(1, vm);
 
         InventoryItem item = Resources.Load<InventoryItem>("InventoryItems/" + itemName);
-        Inventory.Instance.Add(item);
+        inventory.Add(item);
         return null;
     }
 

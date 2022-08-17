@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class DropCommand : ICommand
 {
+    private Inventory inventory;
+
+    public DropCommand(Inventory inventory)
+    {
+        this.inventory = inventory;
+    }
+
     public string Name
     {
         get { return "Drop"; }
@@ -16,7 +23,7 @@ public class DropCommand : ICommand
         string itemName = scriptLine.GetArgValue(1, vm);
 
         InventoryItem item = Resources.Load<InventoryItem>("InventoryItems/" + itemName);
-        Inventory.Instance.Remove(item);
+        inventory.Remove(item);
         return null;
     }
 

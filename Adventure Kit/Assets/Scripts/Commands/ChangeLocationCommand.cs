@@ -5,6 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class ChangeLocationCommand : ICommand
 {
+    private LocationManager locationManager;
+
+    public ChangeLocationCommand(LocationManager locationManager)
+    {
+        this.locationManager = locationManager;
+    }
+
     public string Name
     {
         get { return "ChangeLocation"; }
@@ -17,7 +24,7 @@ public class ChangeLocationCommand : ICommand
         string sceneName = scriptLine.GetArgValue(1, vm);
         string positionName = scriptLine.GetArgValue(2, vm);
 
-        LocationManager.Instance.ChangeLocation(sceneName, positionName);
+        locationManager.ChangeLocation(sceneName, positionName);
         return null;
     }
 

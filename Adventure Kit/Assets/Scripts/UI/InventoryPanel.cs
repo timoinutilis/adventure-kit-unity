@@ -5,14 +5,15 @@ using UnityEngine.UI;
 
 public class InventoryPanel : MonoBehaviour
 {
+    public Inventory inventory;
     public GameObject[] buttons;
     public Image draggingItemPreview;
 
     // Start is called before the first frame update
     void Start()
     {
-        Inventory.Instance.onChangeEvent.AddListener(Refresh);
-        Inventory.Instance.onDragChangeEvent.AddListener(RefreshDraggingPreview);
+        inventory.onChangeEvent.AddListener(Refresh);
+        inventory.onDragChangeEvent.AddListener(RefreshDraggingPreview);
         Refresh();
         RefreshDraggingPreview();
     }
@@ -25,33 +26,33 @@ public class InventoryPanel : MonoBehaviour
 
     public void OnClick(int index)
     {
-        var items = Inventory.Instance.items;
+        var items = inventory.items;
         if (index < items.Count)
         {
             var item = items[index];
-            var draggingItem = Inventory.Instance.DraggingItem;
+            var draggingItem = inventory.DraggingItem;
             if (draggingItem != null)
             {
-                Inventory.Instance.DraggingItem = null;
+                inventory.DraggingItem = null;
                 if (draggingItem == item)
                 {
-                    Inventory.Instance.OnItemInteract(item);
+                    inventory.OnItemInteract(item);
                 }
                 else
                 {
-                    Inventory.Instance.OnCombine(item, draggingItem);
+                    inventory.OnCombine(item, draggingItem);
                 }
             }
             else
             {
-                Inventory.Instance.DraggingItem = item;
+                inventory.DraggingItem = item;
             }
         }
     }
 
     private void Refresh()
     {
-        var items = Inventory.Instance.items;
+        var items = inventory.items;
         for (int i = 0; i < buttons.Length; i++)
         {
             GameObject button = buttons[i];
@@ -70,9 +71,9 @@ public class InventoryPanel : MonoBehaviour
 
     private void RefreshDraggingPreview()
     {
-        if (Inventory.Instance.DraggingItem != null)
+        if (inventory.DraggingItem != null)
         {
-            draggingItemPreview.sprite = Inventory.Instance.DraggingItem.sprite;
+            draggingItemPreview.sprite = inventory.DraggingItem.sprite;
         }
         else
         {
